@@ -55,14 +55,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IOrderRepository.cs" />
-    <Compile Include="Abstract\IProductRepository.cs" />
+    <Compile Include="Abstract\IOrderesRepository.cs" />
+    <Compile Include="Abstract\IProductsRepository.cs" />
+    <Compile Include="Abstract\IUsersRepository.cs" />
     <Compile Include="Entities\Audio.cs" />
     <Compile Include="InternetShopContext.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderedProduct.cs" />
     <Compile Include="Entities\Product.cs" />
-    <Compile Include="OrdersRepository.cs" />
+    <Compile Include="OrdersesRepository.cs" />
     <Compile Include="ProductsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Role.cs" />

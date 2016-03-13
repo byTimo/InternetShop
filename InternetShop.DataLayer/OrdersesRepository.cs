@@ -6,11 +6,11 @@ using InternetShop.DataLayer.Entities;
 
 namespace InternetShop.DataLayer
 {
-    public class OrdersRepository : IOrderRepository, IDisposable
+    public class OrdersesRepository : IOrderesRepository, IDisposable
     {
         private readonly InternetShopContext context;
 
-        public OrdersRepository()
+        public OrdersesRepository()
         {
             context = new InternetShopContext();
         }

@@ -5,7 +5,7 @@ using InternetShop.DataLayer.Entities;
 
 namespace InternetShop.DataLayer
 {
-    public class ProductsRepository : IProductRepository, IDisposable
+    public class ProductsRepository : IProductsRepository, IDisposable
     {
         private readonly InternetShopContext context;
 

@@ -3,7 +3,7 @@ using InternetShop.DataLayer.Entities;
 
 namespace InternetShop.DataLayer.Abstract
 {
-    public interface IOrderRepository
+    public interface IOrderesRepository
     {
         IEnumerable<Order> Orders { get; }
         IEnumerable<Product> Products { get; }

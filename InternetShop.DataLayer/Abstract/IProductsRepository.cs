@@ -3,7 +3,7 @@ using InternetShop.DataLayer.Entities;
 
 namespace InternetShop.DataLayer.Abstract
 {
-    public interface IProductRepository
+    public interface IProductsRepository
     {
         IEnumerable<Audio> Audios { get; }
         IEnumerable<Video> Videos { get; }
