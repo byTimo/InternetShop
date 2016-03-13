@@ -1,20 +1,35 @@
 ﻿@using InternetShop.WebUI.Models
 @using InternetShop.WebUI.HtmlHelpers
+@using InternetShop.DataLayer.Entities
 @model ProductViewModel
 
 @{
     ViewBag.Title = "Товары";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@foreach (var p in @Model.Products)
-{
-    <div>
-        <h3>@p.Name</h3>
-        <p>@p.Description</p>
-        <h4>@p.Price.ToString("# руб")</h4>
-    </div>
-}
 
-<div>
-    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x }))
+<div class="row">
+    
+        @foreach (var p in @Model.Products)
+        {
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <img src="~/Content/img/200x200.jpg" alt="Скоро!" />
+                    <div class="caption">
+                        <h3>@p.Name</h3>
+                        <p>
+                            <a href="#" class="btn btn-info" role="button"><span class="glyphicon glyphicon-info-sign"></span>Подробе</a>
+                            <a href="#" class="btn btn-default" role="button"><span class="glyphicon glyphicon-shopping-cart"></span>В корзину</a>
+                        </p>
+                        <p><span class="pull-right label label-primary">@p.Price.ToString("# руб")</span></p>
+                        <p>@p.Description</p>
+                    </div>
+                </div>
+            </div>
+        }
 </div>
+
+<div class="btn-group pull-right">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new {page = x}))
+</div>
+@Scripts.Render("~/Scripts/content-list.js");
