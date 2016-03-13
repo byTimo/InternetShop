@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InternetShop.DataLayer.Entities
 {
+    [Table("Products")]
     public abstract class Product
     {
         public int ProductId { get; set; }

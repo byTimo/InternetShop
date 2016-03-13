@@ -55,11 +55,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IOrderRepository.cs" />
+    <Compile Include="Abstract\IProductRepository.cs" />
     <Compile Include="Entities\Audio.cs" />
     <Compile Include="InternetShopContext.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderedProduct.cs" />
     <Compile Include="Entities\Product.cs" />
+    <Compile Include="OrdersRepository.cs" />
+    <Compile Include="ProductsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\User.cs" />
@@ -73,9 +77,7 @@
     <DesignData Include="SqlScripts\CreateEntity.sql" />
     <DesignData Include="SqlScripts\InsertDate.sql" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Abstract\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

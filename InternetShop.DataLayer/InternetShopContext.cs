@@ -12,7 +12,8 @@ namespace InternetShop.DataLayer
 
         public virtual DbSet<OrderedProduct> OrderedProducts { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Audio> Audios { get; set; }
+        public virtual DbSet<Video> Videos { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
@@ -22,10 +23,6 @@ namespace InternetShop.DataLayer
                 .HasMany(e => e.OrderedProducts)
                 .WithRequired(e => e.Order)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Product>()
-                .Property(e => e.Description)
-                .IsUnicode(true);
 
             modelBuilder.Entity<Product>()
                 .Property(e => e.Price)
