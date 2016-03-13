@@ -7,5 +7,6 @@ namespace InternetShop.DataLayer.Abstract
     {
         IEnumerable<Audio> Audios { get; }
         IEnumerable<Video> Videos { get; }
+        IEnumerable<Product> Products { get; }
     }
 }

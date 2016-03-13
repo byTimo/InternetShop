@@ -2,6 +2,7 @@ using System;
 using System.Web;
 using System.Web.Mvc;
 using InternetShop.WebUI;
+using InternetShop.WebUI.Infrastructure;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
@@ -62,7 +63,7 @@ namespace InternetShop.WebUI
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
+            DependencyResolver.SetResolver(new InternetShopDependencyResolver(kernel));
         }        
     }
 }

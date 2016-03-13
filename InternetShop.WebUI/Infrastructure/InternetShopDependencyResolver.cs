@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using InternetShop.DataLayer;
+using InternetShop.DataLayer.Abstract;
 using Ninject;
 
 namespace InternetShop.WebUI.Infrastructure
 {
-    public class NinjectDependencyResolver : IDependencyResolver
+    public class InternetShopDependencyResolver : IDependencyResolver
     {
         private readonly IKernel kernel;
 
-        public NinjectDependencyResolver(IKernel kernel)
+        public InternetShopDependencyResolver(IKernel kernel)
         {
             this.kernel = kernel;
             AddBindings();
@@ -27,7 +29,7 @@ namespace InternetShop.WebUI.Infrastructure
 
         private void AddBindings()
         {
-            
+            kernel.Bind<IProductsRepository>().To<ProductsRepository>();
         }
     }
 }

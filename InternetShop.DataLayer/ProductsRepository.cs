@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.DataLayer.Entities;
 
@@ -16,6 +17,9 @@ namespace InternetShop.DataLayer
 
         public IEnumerable<Audio> Audios => context.Audios;
         public IEnumerable<Video> Videos => context.Videos;
+
+        public IEnumerable<Product> Products => context.Audios.Cast<Product>()
+            .Concat(context.Videos);
 
         public void Dispose()
         {
