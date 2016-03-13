@@ -59,6 +59,7 @@
     <Compile Include="Abstract\IProductsRepository.cs" />
     <Compile Include="Abstract\IUsersRepository.cs" />
     <Compile Include="Entities\Audio.cs" />
+    <Compile Include="Entities\ProductType.cs" />
     <Compile Include="InternetShopContext.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderedProduct.cs" />

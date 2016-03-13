@@ -6,7 +6,7 @@ namespace InternetShop.DataLayer
     public class InternetShopContext : DbContext
     {
         public InternetShopContext()
-            : base("name=InternetShop")
+            : base("InternetShop")
         {
         }
 
@@ -23,6 +23,10 @@ namespace InternetShop.DataLayer
                 .HasMany(e => e.OrderedProducts)
                 .WithRequired(e => e.Order)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Product>()
+                .Map<Audio>(p => p.Requires("ProductType").HasValue((byte)ProductType.Audio))
+                .Map<Video>(p => p.Requires("ProductType").HasValue((byte)ProductType.Video));
 
             modelBuilder.Entity<Product>()
                 .Property(e => e.Price)

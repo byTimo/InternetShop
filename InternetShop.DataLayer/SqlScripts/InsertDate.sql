@@ -1,1 +1,23 @@
 use InternetShop
+
+insert into Products values ('Passive Me, Aggresive You', '', 2010, 300, 'The Naked and Famous', 'Постпанк-ривайл', null, null, 0)
+insert into Products values ('In Rolling Waves', '', 2013, 320, 'The Naked and Famous', 'Постпанк-ривайл', null, null, 0)
+insert into Products values ('Infinite', '', 1996, 150, 'Eminem', 'Реп', null, null, 0)
+insert into Products values ('The Slim Shady LP', '', 1999, 150, 'Eminem', 'Реп', null, null, 0)
+insert into Products values ('The Eminem Show', '', 2002, 150, 'Eminem', 'Реп', null, null, 0)
+insert into Products values ('Encore', '', 2004, 150, 'Eminem', 'Реп', null, null, 0)
+insert into Products values ('Relapse', '', 2009, 150, 'Eminem', 'Реп', null, null, 0)
+insert into Products values ('Recovery', '', 2010, 150, 'Eminem', 'Реп', null, null, 0)
+insert into Products values ('Спутник', '', 2013, 100, 'LOne', 'Реп', null, null, 0)
+insert into Products values ('Одинокая Вселенная', '', 2014, 100, 'LOne', 'Реп', null, null, 0)
+insert into Products values ('Автолюбитель', '', 2015, 100, 'LOne', 'Реп', null, null, 0)
+insert into Products values ('Побег из Шоушенка', '', 1994, 300, null, null, 'Френк Дарабонт', 'Драма', 1)
+insert into Products values ('Зеленая миля', '', 1999, 300, null, null, 'Френк Дарабонт', 'Драма', 1)
+insert into Products values ('Форрест Гамп', '', 1994, 300, null, null, 'Роберт Земекис', 'Драма', 1)
+insert into Products values ('Список Шиндлера', '', 1993, 250, null, null, 'Стивен Спилберг', 'Драма', 1)
+insert into Products values ('1+1', '', 2011, 260, null, null, 'Оливье Накаш', 'Драма', 1)
+insert into Products values ('Начало', '', 2010, 300, null, null, 'Кристофер Нолан', 'Фантастика', 1)
+insert into Products values ('Престиж', '', 2006, 300, null, null, 'Кристофер Нолан', 'Фантастика', 1)
+insert into Products values ('Интерстеллар', '', 2014, 300, null, null, 'Кристофер Нолан', 'Фантастика', 1)
+insert into Products values ('Изгой', '', 2000, 300, null, null, 'Роберт Земекис', 'Драма', 1)
+select * from Products

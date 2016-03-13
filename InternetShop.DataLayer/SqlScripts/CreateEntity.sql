@@ -66,6 +66,7 @@ create table Products
   MusicalDirection nvarchar( 50 ) null,
   Director nvarchar( 50 ) null,
   Genre nvarchar( 50 ) null,
+  ProductType tinyint not null,
 
   constraint PK_Products primary key clustered ( ProductId ASC )
 )
