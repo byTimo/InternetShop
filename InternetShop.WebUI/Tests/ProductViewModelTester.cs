@@ -69,5 +69,20 @@ namespace InternetShop.WebUI.Tests
             Assert.AreEqual(video.Director, viewModel.Director);
             Assert.AreEqual(video.Genre, viewModel.Genre);
         }
+
+        [Test]
+        public void ProductViewModelEditTest()
+        {
+            var audioViewModel = new ProductViewModel(audioTestProduct);
+            var videoViewModel = new ProductViewModel(videoTestProduct);
+
+            audioViewModel.Perfomer = "BYtIMO";
+            audioViewModel.Price = 300;
+            videoViewModel.Director = "BYtIMO";
+            videoViewModel.Description = "This is changed model";
+
+            AssertThatViewModelFromAudio(audioViewModel.Product as Audio, audioViewModel);
+            AssertThatViewModelFromVideo(videoViewModel.Product as Video, videoViewModel);
+        }
     }
 }
