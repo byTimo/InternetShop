@@ -16,6 +16,12 @@ namespace InternetShop.WebUI
                 );
 
             routes.MapRoute(
+                name: null, 
+                url: "Admin",
+                defaults: new {controller = "Admin", action = "ProductList"}
+                );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Content", action = "List", id = UrlParameter.Optional }

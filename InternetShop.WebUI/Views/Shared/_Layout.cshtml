@@ -10,7 +10,13 @@
 <body>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-send"></span>InternetShop</a>
+        <a class="navbar-brand" href="@Url.Action("List", "Content", new {page = 1})">
+            <span class="glyphicon glyphicon-send"></span>InternetShop
+        </a>
+        <a class="btn btn-default navbar-btn pull-right" href="@Url.Action("ProductList", "Admin")">
+            <span class="glyphicon glyphicon-queen"></span>
+            Администрирование
+        </a>
     </div>
 </nav>
 <div class="row panel">

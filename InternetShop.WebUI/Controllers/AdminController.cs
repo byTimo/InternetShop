@@ -12,7 +12,7 @@ namespace InternetShop.WebUI.Controllers
             this.repository = repository;
         }
 
-        public ViewResult List()
+        public ViewResult ProductList()
         {
             var allProducts = repository.Products;
             return View(allProducts);

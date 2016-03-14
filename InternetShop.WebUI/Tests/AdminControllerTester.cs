@@ -27,7 +27,7 @@ namespace InternetShop.WebUI.Tests
         [Test]
         public void GetAllProductsTest()
         {
-            var result = controller.List();
+            var result = controller.ProductList();
             var productsInPage = (IEnumerable<Product>) result.Model;
 
             CollectionAssert.AreEqual(productsInPage, testData);
