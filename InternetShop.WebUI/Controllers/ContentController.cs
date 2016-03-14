@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using InternetShop.DataLayer.Abstract;
-using InternetShop.DataLayer.Entities;
 using InternetShop.WebUI.Models;
 
 namespace InternetShop.WebUI.Controllers
@@ -11,7 +9,7 @@ namespace InternetShop.WebUI.Controllers
     {
         public int PageSize { get; set; } = 9;
 
-        private IProductsRepository productsRepository;
+        private readonly IProductsRepository productsRepository;
 
         public ContentController(IProductsRepository productsRepository)
         {
