@@ -11,18 +11,26 @@ namespace InternetShop.WebUI.Tests
     [TestFixture]
     public class AdminControllerTester
     {
+        private AdminController controller;
+        private Mock<IProductsRepository> mock;
+        private IEnumerable<Product> testData;
+
+        [SetUp]
+        public void SetupTest()
+        {
+            testData = Enumerable.Repeat(new Audio(), 20);
+            mock = new Mock<IProductsRepository>();
+            mock.Setup(m => m.Products).Returns(testData);
+            controller = new AdminController(mock.Object);
+        }
+
         [Test]
         public void GetAllProductsTest()
         {
-            var products = Enumerable.Repeat(new Audio(), 20);
-            var mock = new Mock<IProductsRepository>();
-            mock.Setup(m => m.Products).Returns(products);
-            var controller = new AdminController(mock.Object);
-
             var result = controller.List();
             var productsInPage = (IEnumerable<Product>) result.Model;
 
-            CollectionAssert.AreEqual(productsInPage, products);
+            CollectionAssert.AreEqual(productsInPage, testData);
         }
     }
 }

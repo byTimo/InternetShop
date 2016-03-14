@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.DataLayer.Entities;
 using InternetShop.WebUI.Controllers;
@@ -44,7 +43,7 @@ namespace InternetShop.WebUI.Tests
         [Test]
         public void ListSecondPageTest()
         {
-            var pageModel = ((ProductViewModel) controller.List(2).Model);
+            var pageModel = (ProductViewModel) controller.List(2).Model;
 
             Assert.That(pageModel.Products.Count(), Is.EqualTo(5));
             CollectionAssert.AreEqual(testData.Skip(controller.PageSize).ToList(), pageModel.Products);
