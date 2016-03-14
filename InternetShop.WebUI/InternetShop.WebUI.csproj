@@ -153,10 +153,12 @@
     <Compile Include="Infrastructure\InternetShopDependencyResolver.cs" />
     <Compile Include="Models\Helpers\PagingInfo.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
+    <Compile Include="Models\ProductListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\AdminControllerTester.cs" />
     <Compile Include="Tests\ContentControllerTester.cs" />
     <Compile Include="Tests\HelpersTester.cs" />
+    <Compile Include="Tests\ProductViewModelTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

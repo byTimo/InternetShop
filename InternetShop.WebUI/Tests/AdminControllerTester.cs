@@ -3,6 +3,7 @@ using System.Linq;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.DataLayer.Entities;
 using InternetShop.WebUI.Controllers;
+using InternetShop.WebUI.Models;
 using Moq;
 using NUnit.Framework;
 

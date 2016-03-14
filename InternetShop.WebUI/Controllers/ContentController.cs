@@ -18,7 +18,7 @@ namespace InternetShop.WebUI.Controllers
 
         public ViewResult List(int page = 1)
         {
-            var model = new ProductViewModel
+            var model = new ProductListViewModel
             {
                 Products = productsRepository.Products
                     .Skip((page - 1)*PageSize)
