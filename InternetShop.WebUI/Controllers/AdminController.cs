@@ -1,5 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using InternetShop.DataLayer.Abstract;
+using InternetShop.WebUI.Models;
 
 namespace InternetShop.WebUI.Controllers
 {
@@ -16,6 +18,13 @@ namespace InternetShop.WebUI.Controllers
         {
             var allProducts = repository.Products;
             return View(allProducts);
+        }
+
+        public ActionResult EditProduct(int productId)
+        {
+            var product = repository.Products.First(p => p.ProductId == productId);
+            var productViewModel = new ProductViewModel(product);
+            return PartialView(productViewModel);
         }
     }
 }

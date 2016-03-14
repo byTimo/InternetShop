@@ -8,6 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+@RenderSection("modal", required: false)
 <nav id="top" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <a class="navbar-brand" href="@Url.Action("List", "Content", new {page = 1})">
@@ -27,10 +28,10 @@
         @RenderBody()
     </div>
 </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/Scripts/sidebar.js")
-    @RenderSection("scripts", required: false)
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/Scripts/sidebar.js")
+@RenderSection("scripts", required: false)
 </body>
 
 </html>

@@ -1,42 +1,55 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using InternetShop.DataLayer.Entities;
 
 namespace InternetShop.WebUI.Models
 {
     public class ProductViewModel
     {
+        
         public Product Product { get; }
 
+        [HiddenInput(DisplayValue = false)]
         public int ProductId
         {
             get { return Product.ProductId; }
             set { Product.ProductId = value; }
         }
 
+        [Required(ErrorMessage = "Введите название товара!")]
+        [Display(Name = "Название товара")]
+        [MinLength(1, ErrorMessage = "Минимаьная длинна названия - 1 символ")]
         public string Name
         {
             get { return Product.Name; }
             set { Product.Name = value; }
         }
 
+        [Display(Name = "Описание товара")]
         public string Description
         {
             get { return Product.Description; }
             set { Product.Description = value; }
         }
 
+        [Display(Name = "Год выпуска")]
         public int? Year
         {
             get { return Product.Year; }
             set { Product.Year = value; }
         }
 
+        [Display(Name = "Цена товара")]
+        [Required(ErrorMessage = "Вы не указали цену товара!")]
         public decimal Price
         {
             get { return Product.Price; }
             set { Product.Price = value; }
         }
 
+        [Display(Name = "Музыкальный исполнитель")]
         public string Perfomer
         {
             get { return Type == ProductType.Audio ? ((Audio) Product).Perfomer : null; }
@@ -48,6 +61,7 @@ namespace InternetShop.WebUI.Models
             }
         }
 
+        [Display(Name = "Музыкальное направление")]
         public string MusicalDirection
         {
             get { return Type == ProductType.Audio ? ((Audio)Product).MusicalDirection : null; }
@@ -59,6 +73,7 @@ namespace InternetShop.WebUI.Models
             }
         }
 
+        [Display(Name = "Режисер фильма")]
         public string Director
         {
             get { return Type == ProductType.Video ? ((Video)Product).Director : null; }
@@ -70,6 +85,7 @@ namespace InternetShop.WebUI.Models
             }
         }
 
+        [Display(Name = "Жанр фильма")]
         public string Genre
         {
             get { return Type == ProductType.Video ? ((Video)Product).Genre : null; }

@@ -12,6 +12,21 @@
     }
 }
 
+@section scripts
+{
+    @Scripts.Render("~/Scripts/adminModalInvoker.js")
+}
+@section modal
+{
+    <div class="modal fade" id="edit-product-modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="edit-product-modal-content"></div>
+            </div>
+        </div>
+    </div>
+}
+
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3>Списко товаров</h3>
@@ -28,13 +43,13 @@
             {
                 <tr>
                     <td clas="text-center">@item.ProductId</td>
-                    <td>@Html.ActionLink(item.Name, "Edit", new {item.ProductId})</td>
+                    <td><a class="edit-product" data-id="@item.ProductId" style="cursor: pointer;">@item.Name</a></td>
                     <td class="text-center">@item.Price.ToString("# руб")</td>
                     <td class="text-center">
                         @using (Html.BeginForm("Delete", "Admin"))
                         {
                             @Html.Hidden("ProductId", item.ProductId)
-                            <input type="submit" class="btn btn-default btn-xs" value="Удалить"/>
+                            <input type="submit" class="btn btn-default btn-xs" value="Удалить" />
                         }
                     </td>
                 </tr>
@@ -42,6 +57,6 @@
         </table>
     </div>
     <div class="panel-footer">
-        @Html.ActionLink("Дебавить товар", "Create", null, new {@class="btn btn-default"})
+        @Html.ActionLink("Дебавить товар", "Create", null, new { @class = "btn btn-default" })
     </div>
 </div>

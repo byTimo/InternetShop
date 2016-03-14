@@ -1,0 +1,61 @@
+﻿@using InternetShop.DataLayer.Entities
+@using InternetShop.WebUI.Models
+@model ProductViewModel
+
+
+<div class="modal-header">
+    <button class="close" data-dismiss="modal" aria-hidden="True">&times;</button>
+    <h4 class="modal-title" id="productModal">Товар "@Model.Name"</h4>
+</div>
+<div class="modal-body">
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(m => m.ProductId)
+        @Html.HiddenFor(m => m.Type)
+        @Html.HiddenFor(m => m.Product)
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name, new {@class = "control-label"})
+            @Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
+            @*@Html.ValidationMessageFor(m => m.Name)*@
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Price, new {@class = "control-label"})
+            @Html.TextBoxFor(m => m.Price, new {@class = "form-control"})
+            @*@Html.ValidationMessageFor(m => m.Name)*@
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Year, new {@class = "control-label"})
+            @Html.TextBoxFor(m => m.Year, new {@class = "form-control"})
+        </div>
+        if (Model.Type == ProductType.Audio)
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.Perfomer, new {@class = "control-label"})
+                @Html.TextBoxFor(m => m.Perfomer, new {@class = "form-control"})
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.MusicalDirection, new {@class = "control-label"})
+                @Html.TextBoxFor(m => m.MusicalDirection, new {@class = "form-control"})
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.Director, new {@class = "control-label"})
+                @Html.TextBoxFor(m => m.Director, new {@class = "form-control"})
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Genre, new {@class = "control-label"})
+                @Html.TextBoxFor(m => m.Genre, new {@class = "form-control"})
+            </div>
+
+        }
+        <div class="form-group">
+            @Html.LabelFor(m => m.Description, new {@class = "control-label"})
+            @Html.TextAreaFor(m => m.Description, new {@class = "form-control"})
+        </div>
+        <div class="modal-footer">
+            <input type="submit" value="Сохранить" class="btn btn-success"/>
+        </div>
+    }
+</div>
