@@ -1,11 +1,17 @@
 ﻿@using InternetShop.WebUI.Models
 @using InternetShop.WebUI.HtmlHelpers
-@using InternetShop.DataLayer.Entities
 @model ProductViewModel
 
 @{
     ViewBag.Title = "Товары";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section sideMenu
+{
+    @{
+        Html.RenderPartial("Catigories");
+    }
 }
 
 <div class="row">

@@ -4,6 +4,14 @@
     ViewBag.Title = "Админ панель: Список товаров";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@section sideMenu
+{
+    @{
+        Html.RenderPartial("AdminActions");
+    }
+}
+
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3>Списко товаров</h3>
