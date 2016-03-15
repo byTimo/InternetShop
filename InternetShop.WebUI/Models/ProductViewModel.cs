@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web.Mvc;
 using InternetShop.DataLayer.Entities;
 
@@ -7,10 +9,12 @@ namespace InternetShop.WebUI.Models
 {
     public class ProductViewModel
     {
-        public ProductType Type { get; set; }
-
         [HiddenInput(DisplayValue = false)]
         public int ProductId { get; set; }
+
+        [Display(Name = "Тип продука")]
+        [Required(ErrorMessage = "Не выбран тип продукта")]
+        public ProductType Type { get; set; }
 
         [Required(ErrorMessage = "Введите название товара!")]
         [Display(Name = "Название товара")]
@@ -38,6 +42,15 @@ namespace InternetShop.WebUI.Models
 
         [Display(Name = "Жанр фильма")]
         public string Genre { get; set; }
+
+        public IEnumerable<SelectListItem> Types => Enum.GetValues(typeof (ProductType))
+            .Cast<ProductType>()
+            .Select(t => new SelectListItem
+            {
+                Text = t.ToString(),
+                Value = ((int)t).ToString(),
+                Selected = t == Type
+            });
 
         public ProductViewModel()
         {

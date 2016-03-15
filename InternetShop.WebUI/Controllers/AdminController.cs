@@ -20,6 +20,25 @@ namespace InternetShop.WebUI.Controllers
             return View(allProducts);
         }
 
+        public ViewResult CreateProduct()
+        {
+            ViewBag.Title = "Админ панель : Создание товара";
+            return View(new ProductViewModel());
+        }
+
+        [HttpPost]
+        public ActionResult CreateProduct(ProductViewModel productViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                repository.SaveProduct(productViewModel.ToProduct());
+                TempData["message"] = $"Добавлен новый товар: {productViewModel.Name}";
+                return RedirectToAction("ProductList");
+            }
+            TempData["error-message"] = "При создании товара возникли ошибки";
+            return View(productViewModel);
+        }
+
         public ViewResult EditProduct(int productId)
         {
             ViewBag.Title = "Админ панель : изменение товара";
