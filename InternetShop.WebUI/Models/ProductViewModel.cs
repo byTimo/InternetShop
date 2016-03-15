@@ -7,112 +7,118 @@ namespace InternetShop.WebUI.Models
 {
     public class ProductViewModel
     {
-        private Product product;
+        public ProductType Type { get; set; }
 
         [HiddenInput(DisplayValue = false)]
-        public int ProductId
-        {
-            get { return product.ProductId; }
-            set { product.ProductId = value; }
-        }
+        public int ProductId { get; set; }
 
         [Required(ErrorMessage = "Введите название товара!")]
         [Display(Name = "Название товара")]
         [MinLength(1, ErrorMessage = "Минимаьная длинна названия - 1 символ")]
-        public string Name
-        {
-            get { return product.Name; }
-            set { product.Name = value; }
-        }
+        public string Name { get; set; }
 
         [Display(Name = "Описание товара")]
-        public string Description
-        {
-            get { return product.Description; }
-            set { product.Description = value; }
-        }
+        public string Description { get; set; }
 
         [Display(Name = "Год выпуска")]
-        public int? Year
-        {
-            get { return product.Year; }
-            set { product.Year = value; }
-        }
+        public int? Year { get; set; }
 
         [Display(Name = "Цена товара")]
         [Required(ErrorMessage = "Вы не указали цену товара!")]
-        public decimal Price
-        {
-            get { return product.Price; }
-            set { product.Price = value; }
-        }
+        public decimal Price { get; set; }
 
         [Display(Name = "Музыкальный исполнитель")]
-        public string Perfomer
-        {
-            get { return Type == ProductType.Audio ? ((Audio) product).Perfomer : null; }
-            set
-            {
-                if(Type != ProductType.Audio)
-                    throw new ArgumentException("The product is not audio product");
-                ((Audio) product).Perfomer = value;
-            }
-        }
+        public string Perfomer { get; set; }
 
         [Display(Name = "Музыкальное направление")]
-        public string MusicalDirection
-        {
-            get { return Type == ProductType.Audio ? ((Audio)product).MusicalDirection : null; }
-            set
-            {
-                if (Type != ProductType.Audio)
-                    throw new ArgumentException("The product is not audio product");
-                ((Audio)product).MusicalDirection = value;
-            }
-        }
+        public string MusicalDirection { get; set; }
 
         [Display(Name = "Режисер фильма")]
-        public string Director
-        {
-            get { return Type == ProductType.Video ? ((Video)product).Director : null; }
-            set
-            {
-                if (Type != ProductType.Video)
-                    throw new ArgumentException("The product is not video product");
-                ((Video)product).Director = value;
-            }
-        }
+        public string Director { get; set; }
 
         [Display(Name = "Жанр фильма")]
-        public string Genre
+        public string Genre { get; set; }
+
+        public ProductViewModel()
         {
-            get { return Type == ProductType.Video ? ((Video)product).Genre : null; }
-            set
+        }
+
+        public ProductViewModel(Audio audio)
+        {
+            Type = ProductType.Audio;
+            SetCommonProductFields(audio);
+            Perfomer = audio.Perfomer;
+            MusicalDirection = audio.MusicalDirection;
+        }
+
+        private void SetCommonProductFields(Product product)
+        {
+            ProductId = product.ProductId;
+            Name = product.Name;
+            Description = product.Description;
+            Year = product.Year;
+            Price = product.Price;
+        }
+
+        public ProductViewModel(Video video)
+        {
+            Type = ProductType.Video;
+            SetCommonProductFields(video);
+            Director = video.Director;
+            Genre = video.Genre;
+        }
+
+        public static ProductViewModel Create(Product product)
+        {
+            if (product is Audio)
             {
-                if (Type != ProductType.Video)
-                    throw new ArgumentException("The product is not video product");
-                ((Video)product).Genre = value;
+                return new ProductViewModel(product as Audio);
             }
-        }
-
-        public ProductType Type { get; }
-
-        public ProductViewModel(Product product)
-        {
-            this.product = product;
-            Type = DefineProductType();
-        }
-
-        public ProductViewModel() : this(new Audio()) { }
-
-        private ProductType DefineProductType()
-        {
-            return product is Audio ? ProductType.Audio : ProductType.Video;
+            else
+            {
+                return new ProductViewModel(product as Video);
+            }
         }
 
         public Product ToProduct()
         {
-            return product;
+            switch (Type)
+            {
+                case ProductType.Audio:
+                    return ToAudio();
+                case ProductType.Video:
+                    return ToVideo();
+                default:
+                    throw new ArgumentException();
+            }
+        }
+
+        private Audio ToAudio()
+        {
+            return new Audio
+            {
+                ProductId = ProductId,
+                Name = Name,
+                Price = Price,
+                Description = Description,
+                MusicalDirection = MusicalDirection,
+                Perfomer = Perfomer,
+                Year = Year
+            };
+        }
+
+        private Video ToVideo()
+        {
+            return new Video
+            {
+                ProductId = ProductId,
+                Name = Name,
+                Price = Price,
+                Description = Description,
+                Director = Director,
+                Genre = Genre,
+                Year = Year
+            };
         }
     }
 }

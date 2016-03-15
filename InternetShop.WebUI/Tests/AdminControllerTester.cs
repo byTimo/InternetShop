@@ -64,7 +64,7 @@ namespace InternetShop.WebUI.Tests
             testProduct.Name = "Test";
             testProduct.Price = 300;
 
-            var result = controller.EditProduct(new ProductViewModel(testProduct));
+            var result = controller.EditProduct(ProductViewModel.Create(testProduct));
 
             mock.Verify(m => m.SaveProduct(testProduct));
             Assert.IsInstanceOf<RedirectToRouteResult>(result);

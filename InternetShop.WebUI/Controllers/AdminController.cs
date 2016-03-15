@@ -23,7 +23,7 @@ namespace InternetShop.WebUI.Controllers
         public PartialViewResult EditProduct(int productId)
         {
             var product = repository.Products.First(p => p.ProductId == productId);
-            var productViewModel = new ProductViewModel(product);
+            var productViewModel = ProductViewModel.Create(product);
             return PartialView(productViewModel);
         }
 
