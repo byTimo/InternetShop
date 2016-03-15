@@ -81,8 +81,8 @@ namespace InternetShop.WebUI.Tests
             videoViewModel.Director = "BYtIMO";
             videoViewModel.Description = "This is changed model";
 
-            AssertThatViewModelFromAudio(audioViewModel.Product as Audio, audioViewModel);
-            AssertThatViewModelFromVideo(videoViewModel.Product as Video, videoViewModel);
+            AssertThatViewModelFromAudio(audioViewModel.ToProduct() as Audio, audioViewModel);
+            AssertThatViewModelFromVideo(videoViewModel.ToProduct() as Video, videoViewModel);
         }
     }
 }

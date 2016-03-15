@@ -32,7 +32,7 @@ namespace InternetShop.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var product = productViewModel.Product;
+                var product = productViewModel.ToProduct();
                 repository.SaveProduct(product);
                 return RedirectToAction("ProductList");
             }

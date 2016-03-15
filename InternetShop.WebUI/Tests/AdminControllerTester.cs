@@ -53,7 +53,7 @@ namespace InternetShop.WebUI.Tests
             var productViewModel = new ProductViewModel(audioTestProduct);
             var resutl = controller.EditProduct(productViewModel);
 
-            mock.Verify(m => m.SaveProduct(productViewModel.Product));
+            mock.Verify(m => m.SaveProduct(productViewModel.ToProduct()));
             Assert.IsInstanceOf<RedirectToRouteResult>(resutl);
         }
 
