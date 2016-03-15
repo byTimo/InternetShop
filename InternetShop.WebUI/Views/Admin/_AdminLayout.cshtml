@@ -19,7 +19,9 @@
         <div class="col-md-1 col-md-offset-2">
             <div>
                 <ul class="nav nav-stacked" id="sidebar">
-                    <li><a class="btn btn-default" href="@Url.Action("CreateProduct")">Добавить товар</a></li>
+                    <li><a class="btn btn-default" href="@Url.Action("CreateProduct")">
+                        <span class="glyphicon glyphicon-plus"></span>&nbsp;Добавить товар
+                    </a></li>
                 </ul>
             </div>
 
@@ -32,6 +34,11 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/sidebar.js")
     @RenderSection("scripts", required: false)
-</body>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".alert").delay(5000).fadeOut();
+        });
+    </script>
 
+</body>
 </html>
