@@ -8,7 +8,13 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-@RenderSection("modal", required: false)
+    <div class="modal fade" id="modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="modal-content"></div>
+            </div>
+        </div>
+    </div>
 <nav id="top" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <a class="navbar-brand" href="@Url.Action("List", "Content", new {page = 1})">
@@ -32,6 +38,14 @@
 @Scripts.Render("~/bundles/bootstrap")
 @Scripts.Render("~/Scripts/sidebar.js")
 @RenderSection("scripts", required: false)
+<script type="text/javascript">
+    function invokeModal(url) {
+        $.get(url, function (data) {
+            $("#modal-content").html(data);
+            $("#modal").modal("show");
+        });
+    }
+</script>
 </body>
 
 </html>
