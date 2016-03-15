@@ -20,11 +20,12 @@ namespace InternetShop.WebUI.Controllers
             return View(allProducts);
         }
 
-        public PartialViewResult EditProduct(int productId)
+        public ViewResult EditProduct(int productId)
         {
+            ViewBag.Title = "Админ панель : изменение товара";
             var product = repository.Products.First(p => p.ProductId == productId);
             var productViewModel = ProductViewModel.Create(product);
-            return PartialView(productViewModel);
+            return View(productViewModel);
         }
 
         [HttpPost]
@@ -34,9 +35,11 @@ namespace InternetShop.WebUI.Controllers
             {
                 var product = productViewModel.ToProduct();
                 repository.SaveProduct(product);
+                TempData["message"] = $"Изменения товара {product.Name} были сохранены!";
                 return RedirectToAction("ProductList");
             }
-            return PartialView(productViewModel);
+            TempData["error-message"] = "При обновлении модели были ошибки!";
+            return View(productViewModel);
         }
 
         protected override void Dispose(bool disposing)

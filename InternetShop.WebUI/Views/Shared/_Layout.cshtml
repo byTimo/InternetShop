@@ -8,29 +8,26 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-
-<!-- Объявление модлального окна для любого представления -->
-<div class="modal fade" id="modal" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div id="modal-content"></div>
-        </div>
-    </div>
-</div>
 <nav id="top" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="@Url.Action("List", "Content", new {page = 1})">
-            <span class="glyphicon glyphicon-send"></span>InternetShop
-        </a>
+            <a class="navbar-brand" href="@Url.Action("List", "Content", new {page = 1})">
+                <span class="glyphicon glyphicon-send"></span>&nbsp;InternetShop
+            </a>
         <a class="btn btn-default navbar-btn pull-right" href="@Url.Action("ProductList", "Admin")">
-            <span class="glyphicon glyphicon-queen"></span>
-            Администрирование
+            <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+            &nbsp;Администрирование
         </a>
     </div>
 </nav>
 <div class="row panel">
     <div class="col-md-1 col-md-offset-2">
-        @RenderSection("sideMenu")
+        <div id="categories">
+            <ul class="nav nav-stacked" id="sidebar">
+                <li>Test</li>
+                <li>Test</li>
+                <li>Test</li>
+            </ul>
+        </div>
     </div>
     <div class="col-md-6">
         @RenderBody()
@@ -40,16 +37,6 @@
 @Scripts.Render("~/bundles/bootstrap")
 @Scripts.Render("~/Scripts/sidebar.js")
 @RenderSection("scripts", required: false)
-
-<!-- Скрипт вызова модального окна -->
-<script type="text/javascript">
-    function invokeModal(url) {
-        $.get(url, function(data) {
-            $("#modal-content").html(data);
-            $("#modal").modal("show");
-        });
-    }
-</script>
 </body>
 
 </html>

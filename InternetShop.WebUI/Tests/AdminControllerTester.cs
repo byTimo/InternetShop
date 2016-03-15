@@ -78,7 +78,7 @@ namespace InternetShop.WebUI.Tests
             controller.ModelState.AddModelError("error", "error");
             var result = controller.EditProduct(new ProductViewModel(product));
 
-            Assert.IsInstanceOf<PartialViewResult>(result);
+            Assert.IsInstanceOf<ViewResult>(result);
         }
     }
 }
