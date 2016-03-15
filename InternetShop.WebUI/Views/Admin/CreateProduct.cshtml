@@ -20,10 +20,9 @@
         @using (Html.BeginForm())
         {
             @Html.HiddenFor(m => m.ProductId)
-            @Html.HiddenFor(m => m.Type)
             <div class="form-group">
-                @Html.LabelFor(m => m.Type)
-                @Html.DropDownListFor(m => m.Type, Model.Types,new { @class = "combobox" })
+                @Html.LabelFor(m => m.Type, new { @class = "control-label" })
+                @Html.EnumDropDownListFor(m => m.Type,new { @class = "combobox form-control" })
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.Name, new {@class = "control-label"})
