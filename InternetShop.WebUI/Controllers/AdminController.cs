@@ -20,11 +20,29 @@ namespace InternetShop.WebUI.Controllers
             return View(allProducts);
         }
 
-        public ActionResult EditProduct(int productId)
+        public PartialViewResult EditProduct(int productId)
         {
             var product = repository.Products.First(p => p.ProductId == productId);
             var productViewModel = new ProductViewModel(product);
             return PartialView(productViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditProduct(ProductViewModel productViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var product = productViewModel.Product;
+                repository.SaveProduct(product);
+                return RedirectToAction("ProductList");
+            }
+            return PartialView(productViewModel);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            repository.Dispose();
+            base.Dispose(disposing);
         }
     }
 }
