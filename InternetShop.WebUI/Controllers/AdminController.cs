@@ -61,6 +61,15 @@ namespace InternetShop.WebUI.Controllers
             return View(productViewModel);
         }
 
+        [HttpPost]
+        public ActionResult DeleteProduct(int productId)
+        {
+            var product = repository.Products.First(p => p.ProductId == productId);
+            repository.DeleteProduct(product);
+            TempData["message"] = $"Товар {product.Name} успешно удалён!";
+            return RedirectToAction("ProductList");
+        }
+
         protected override void Dispose(bool disposing)
         {
             repository.Dispose();

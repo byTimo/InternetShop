@@ -80,5 +80,15 @@ namespace InternetShop.WebUI.Tests
 
             Assert.IsInstanceOf<ViewResult>(result);
         }
+
+        [Test]
+        public void DeleteProductTest()
+        {
+            var prodcut = testData.ToArray()[5];
+
+            var result = controller.DeleteProduct(prodcut.ProductId);
+
+            mock.Verify(m => m.DeleteProduct(prodcut));
+        }
     }
 }

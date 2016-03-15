@@ -11,5 +11,6 @@ namespace InternetShop.DataLayer.Abstract
         IEnumerable<Product> Products { get; }
 
         Product SaveProduct(Product product);
+        Product DeleteProduct(Product product);
     }
 }

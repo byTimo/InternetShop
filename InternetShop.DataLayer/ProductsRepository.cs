@@ -29,6 +29,13 @@ namespace InternetShop.DataLayer
             return product;
         }
 
+        public Product DeleteProduct(Product product)
+        {
+            context.Entry(product).State = EntityState.Deleted;
+            context.SaveChanges();
+            return product;
+        }
+
         public void Dispose()
         {
             context.Dispose();
