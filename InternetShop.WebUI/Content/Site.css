@@ -45,3 +45,9 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
+
+.thumbnail
+img {
+    height: 200px;
+    width: 280px;
+}

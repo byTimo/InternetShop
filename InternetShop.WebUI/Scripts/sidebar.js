@@ -1,5 +1,6 @@
 ﻿var topHeight = $("#top").height;
 
-$("#sidebar").affix({
+$(".nav").affix({
     offset: { top: topHeight }
 });
+

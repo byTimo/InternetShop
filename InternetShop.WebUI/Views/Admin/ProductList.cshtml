@@ -7,9 +7,9 @@
 
 @section sidemenu{
 <div>
-    <ul class="nav nav-stacked" id="sidebar">
-        <li>
-            <a class="btn btn-default" href="@Url.Action("CreateProduct")">
+    <ul class="nav nav-stacked nav-pills">
+        <li class="active" role="presentation">
+            <a href="@Url.Action("CreateProduct")">
                 <span class="glyphicon glyphicon-plus"></span>&nbsp;Добавить товар
             </a>
         </li>
@@ -36,7 +36,7 @@
             {
                 <tr>
                     <td clas="text-center">@item.ProductId</td>
-                    <td>@Html.ActionLink(@item.Name, "EditProduct", new { productId = item.ProductId })</td>
+                    <td>@Html.ActionLink(@item.Name, "EditProduct", new {productId = item.ProductId})</td>
                     <td class="text-center">@item.Price.ToString("# руб")</td>
                     <td class="text-center">
                         @using (Html.BeginForm("DeleteProduct", "Admin"))
@@ -50,3 +50,4 @@
         </table>
     </div>
 </div>
+
