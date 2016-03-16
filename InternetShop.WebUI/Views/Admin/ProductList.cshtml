@@ -2,8 +2,21 @@
 
 @{
     ViewBag.Title = "Админ панель: Список товаров";
-    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@section sidemenu{
+<div>
+    <ul class="nav nav-stacked" id="sidebar">
+        <li>
+            <a class="btn btn-default" href="@Url.Action("CreateProduct")">
+                <span class="glyphicon glyphicon-plus"></span>&nbsp;Добавить товар
+            </a>
+        </li>
+    </ul>
+</div>
+}
+
 @if (TempData["message"] != null)
 {
     <div class="alert alert-success">

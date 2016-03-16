@@ -57,7 +57,7 @@ namespace InternetShop.WebUI.Controllers
                 TempData["message"] = $"Изменения товара {product.Name} были сохранены!";
                 return RedirectToAction("ProductList");
             }
-            TempData["error-message"] = "При обновлении модели были ошибки!";
+            TempData["error-message"] = "При обновлении товара возникли ошибки!";
             return View(productViewModel);
         }
 

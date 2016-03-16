@@ -1,10 +1,10 @@
 ﻿@using InternetShop.DataLayer.Entities
 @using InternetShop.WebUI.Models
 @model ProductViewModel
-
 @{
-    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @if (TempData["error-message"] != null)
 {
     <div class="alert alert-danger">

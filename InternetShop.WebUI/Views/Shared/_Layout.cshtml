@@ -17,14 +17,7 @@
 </nav>
 <div class="row panel">
     <div class="col-md-1 col-md-offset-2">
-        <div id="categories">
-            <ul class="nav nav-stacked btn-sm" id="sidebar">
-                <li><a class="btn btn-default" href="@Url.Action("ProductList", "Admin")">
-                    <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
-                    &nbsp;Администрирование
-                </a></li>
-            </ul>
-        </div>
+        @RenderSection("sidemenu", false)
     </div>
     <div class="col-md-6">
         @RenderBody()
@@ -34,6 +27,11 @@
 @Scripts.Render("~/bundles/bootstrap")
 @Scripts.Render("~/Scripts/sidebar.js")
 @RenderSection("scripts", required: false)
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".alert").delay(5000).fadeOut();
+    });
+</script>
 </body>
 
 </html>
