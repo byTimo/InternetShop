@@ -29,10 +29,7 @@
                         <img alt="NoImage" class="img-thumbnail" style="width: 270px; height: 240px;" src="@Url.Content("~/Content/img/no_image.jpg")"/>
                     }
                     <div class="caption">
-                        <span class="pull-right label label-primary">@p.Price.ToString("# руб")</span>
-                        <h3>@p.Name</h3>
                         <p>
-                            @*<a href="@Url.Action("Info", new {productId =p.ProductId})" class="btn btn-info" role="button"></a>*@
                             <button class="btn btn-info info-btn" onclick="showInfo('@Url.Action("Info", new {productId = p.ProductId})')">
                                 <span class="glyphicon glyphicon-info-sign"></span>
                                 &nbsp;Подробно
@@ -42,6 +39,10 @@
                                 &nbsp;В корзину
                             </a>
                         </p>
+                        <span class="pull-right label label-primary">@p.Price.ToString("# руб")</span>
+                        <span class="pull-right label label-info">@p.Type.ToString()</span>
+                        <h3>@p.Name<br/> <small>@(p.Perfomer ?? p.Director)</small>
+                        </h3>
                         <p>@p.Description</p>
                     </div>
                 </div>
