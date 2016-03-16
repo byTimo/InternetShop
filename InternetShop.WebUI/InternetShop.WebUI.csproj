@@ -210,6 +210,7 @@
     <Content Include="Views\Admin\ProductList.cshtml" />
     <Content Include="Views\Admin\EditProduct.cshtml" />
     <Content Include="Views\Admin\CreateProduct.cshtml" />
+    <Content Include="Views\Content\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -27,7 +27,7 @@ namespace InternetShop.WebUI.Controllers
                     .Select(ProductViewModel.Create),
                 PagingInfo = new PagingInfo(page, PageSize, productsRepository.Products.Count())
             };
-
+            ViewBag.ProductInCartCount = GetCart().ProductsInCart.Count;
             return View(model);
         }
 
@@ -36,6 +36,12 @@ namespace InternetShop.WebUI.Controllers
             var product = productsRepository.Products.First(p => p.ProductId == productId);
             GetCart().AddItem(product, 1);
             return RedirectToAction("List");
+        }
+
+        public ViewResult Cart()
+        {
+            var cart = GetCart();
+            return View(cart);
         }
 
         private Cart GetCart()

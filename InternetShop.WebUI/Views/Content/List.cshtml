@@ -9,6 +9,7 @@
 
 @section sidemenu
 {
+    <a href="@Url.Action("Cart")">Корзина <span class="badge">@ViewBag.ProductInCartCount</span></a>
     @Html.ActionLink("Админмод", "ProductList", "Admin")
 }
 

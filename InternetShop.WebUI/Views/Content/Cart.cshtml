@@ -1,0 +1,46 @@
+﻿@using InternetShop.DataLayer
+@model Cart
+
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section sidemenu
+{
+    <a href="@Url.Action("List")">Вернуться к списку товаров</a>
+}
+
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h2>
+            <span class="glyphicon glyphicon-shopping-cart"></span>
+            &nbsp;Ваша корзина
+        </h2>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-condensed table-bordered">
+            <tr>
+                <th class="text-center">Кол-во</th>
+                <th class="text-center">Товар</th>
+                <th class="text-center">Цена</th>
+                <th class="text-center">Общая цена</th>
+            </tr>
+            @foreach (var product in Model.ProductsInCart)
+            {
+                <tr>
+                    <td class="text-center">@product.Item2</td>
+                    <th class="text-center">@product.Item1.Name</th>
+                    <th class="text-center">@product.Item1.Price.ToString("# руб")</th>
+                    <th class="text-center">@((product.Item1.Price*product.Item2).ToString("# руб"))</th>
+                </tr>
+            }
+            <tfoot>
+            <tr>
+                <td colspan="3" class="text-right">Итог:</td>
+                <td class="text-left">@Model.ComputeTotalValue().ToString("# руб")</td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
