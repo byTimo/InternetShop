@@ -20,57 +20,71 @@
         </h2>
     </div>
     <div class="panel-body">
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("CreateProduct", "Admin", FormMethod.Post, new {enctype= "multipart/form-data" }))
         {
             @Html.HiddenFor(m => m.ProductId)
             <div class="form-group">
                 @Html.LabelFor(m => m.Type, new { @class = "control-label" })
-                @Html.EnumDropDownListFor(m => m.Type,new { @class = "combobox form-control" })
+                @Html.EnumDropDownListFor(m => m.Type, new { @class = "combobox form-control" })
+            </div>
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Price, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Price)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Year, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Year, new { @class = "form-control" })
+                    </div>
+                    <!-- Audio -->
+                    <div id="audio-parameters" class="hidden">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Perfomer, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Perfomer, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.MusicalDirection, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.MusicalDirection, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <!-- Video -->
+                    <div id="video-parameters" class="hidden">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Director, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Director, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Genre, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Genre, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <img id="image" style="width: 270px; height: 240px" src="@Url.Content("~/Content/img/no_image.jpg")" />
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input id="input-image" name="NewImage" type="file" />
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.Name, new {@class = "control-label"})
-                @Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
-                @Html.ValidationMessageFor(m => m.Name)
+                @Html.LabelFor(m => m.Description, new { @class = "control-label" })
+                @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
             </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Price, new {@class = "control-label"})
-                @Html.TextBoxFor(m => m.Price, new {@class = "form-control"})
-                @Html.ValidationMessageFor(m => m.Price)
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Year, new {@class = "control-label"})
-                @Html.TextBoxFor(m => m.Year, new {@class = "form-control"})
-            </div>
-            <!-- Audio -->
-            <div id="audio-parameters" class="hidden">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Perfomer, new {@class = "control-label"})
-                    @Html.TextBoxFor(m => m.Perfomer, new {@class = "form-control"})
+                <div class="panel-footer">
+                    <input type="submit" value="Создать" class="btn btn-primary" />
+                    @Html.ActionLink("Отменить", "ProductList", null, new { @class = "btn btn-default" })
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.MusicalDirection, new {@class = "control-label"})
-                    @Html.TextBoxFor(m => m.MusicalDirection, new {@class = "form-control"})
-                </div>
-            </div>
-            <!-- Video -->
-            <div id="video-parameters" class="hidden">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Director, new {@class = "control-label"})
-                    @Html.TextBoxFor(m => m.Director, new {@class = "form-control"})
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Genre, new {@class = "control-label"})
-                    @Html.TextBoxFor(m => m.Genre, new {@class = "form-control"})
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Description, new {@class = "control-label"})
-                @Html.TextAreaFor(m => m.Description, new {@class = "form-control"})
-            </div>
-            <div class="panel-footer">
-                <input type="submit" value="Создать" class="btn btn-primary"/>
-                @Html.ActionLink("Отменить", "ProductList", null, new {@class = "btn btn-default"})
-            </div>
         }
     </div>
 </div>
@@ -78,4 +92,5 @@
 @section scripts
 {
     @Scripts.Render("~/Scripts/dropDownListControl.js")
+    @Scripts.Render("~/Scripts/image-reader.js")
 }
