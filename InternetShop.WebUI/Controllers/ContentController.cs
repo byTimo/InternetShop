@@ -17,7 +17,7 @@ namespace InternetShop.WebUI.Controllers
             this.productsRepository = productsRepository;
         }
 
-        public ViewResult List(int page = 1)
+        public ViewResult List(Cart cart, int page = 1)
         {
             var model = new ProductListViewModel
             {
@@ -27,32 +27,36 @@ namespace InternetShop.WebUI.Controllers
                     .Select(ProductViewModel.Create),
                 PagingInfo = new PagingInfo(page, PageSize, productsRepository.Products.Count())
             };
-            ViewBag.ProductInCartCount = GetCart().ProductsInCart.Count;
+            ViewBag.ProductInCartCount = cart.ProductsInCart.Count;
             return View(model);
         }
 
-        public ActionResult AddToCart(int productId)
+        public ActionResult AddToCart(Cart cart, int productId)
         {
             var product = productsRepository.Products.First(p => p.ProductId == productId);
-            GetCart().AddItem(product, 1);
+            cart.AddItem(product, 1);
+            TempData["Message"] = $"Товар {product.Name} добавлен в корзину.";
             return RedirectToAction("List");
         }
 
-        public ViewResult Cart()
+        public ActionResult RemoveFromCart(Cart cart, int productId)
         {
-            var cart = GetCart();
-            return View(cart);
+            var product = productsRepository.Products.First(p => p.ProductId == productId);
+            cart.RemoveItem(product);
+            TempData["Message"] = $"Товар {product.Name} удалён из корзины.";
+            return RedirectToAction("Cart");
         }
 
-        private Cart GetCart()
+        public ActionResult ClearCart(Cart cart)
         {
-            var cart = Session["Cart"] as Cart;
-            if (cart == null)
-            {
-                cart = new Cart();
-                Session["Cart"] = cart;
-            }
-            return cart;
+            cart.Clear();
+            TempData["Message"] = "Корзина отчищена";
+            return RedirectToAction("Cart");
+        }
+
+        public ViewResult Cart(Cart cart)
+        {
+            return View(cart);
         }
     }
 }

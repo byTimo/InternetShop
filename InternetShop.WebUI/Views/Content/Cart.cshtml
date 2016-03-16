@@ -8,7 +8,14 @@
 
 @section sidemenu
 {
-    <a href="@Url.Action("List")">Вернуться к списку товаров</a>
+    <ul>
+        <li>
+            <a href="@Url.Action("ClearCart")">Отчистить корзину</a>
+        </li>
+        <li>
+             <a href="@Url.Action("List")">Вернуться к списку товаров</a>   
+        </li>
+    </ul>
 }
 
 <div class="panel panel-success">
@@ -25,14 +32,18 @@
                 <th class="text-center">Товар</th>
                 <th class="text-center">Цена</th>
                 <th class="text-center">Общая цена</th>
+                <th></th>
             </tr>
             @foreach (var product in Model.ProductsInCart)
             {
                 <tr>
                     <td class="text-center">@product.Item2</td>
-                    <th class="text-center">@product.Item1.Name</th>
-                    <th class="text-center">@product.Item1.Price.ToString("# руб")</th>
-                    <th class="text-center">@((product.Item1.Price*product.Item2).ToString("# руб"))</th>
+                    <td class="text-center">@product.Item1.Name</td>
+                    <td class="text-center">@product.Item1.Price.ToString("# руб")</td>
+                    <td class="text-center">@((product.Item1.Price*product.Item2).ToString("# руб"))</td>
+                    <td><a href="@Url.Action("RemoveFromCart", new {productId = product.Item1.ProductId})">
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </a></td>
                 </tr>
             }
             <tfoot>
