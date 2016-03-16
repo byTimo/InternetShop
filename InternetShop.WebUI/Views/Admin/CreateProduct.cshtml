@@ -20,7 +20,7 @@
         </h2>
     </div>
     <div class="panel-body">
-        @using (Html.BeginForm("CreateProduct", "Admin", FormMethod.Post, new {enctype= "multipart/form-data" }))
+        @using (Html.BeginForm("CreateProduct", "Admin", FormMethod.Post, new {enctype = "multipart/form-data" }))
         {
             @Html.HiddenFor(m => m.ProductId)
             <div class="form-group">

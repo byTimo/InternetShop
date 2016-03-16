@@ -21,7 +21,7 @@
                 <div class="thumbnail">
                     @if (p.ImageData != null)
                     {
-                        <img alt="@p.Name" class="img-thumbnail" style="width: 270px; height: 240px;"
+                        <img alt="@p.Name" class="img-thumbnail info-btn" style="width: 270px; height: 240px;"
                              src="@Url.Action("GetImage", new {productId = p.ProductId})"/>
                     }
                     else
@@ -29,15 +29,19 @@
                         <img alt="NoImage" class="img-thumbnail" style="width: 270px; height: 240px;" src="@Url.Content("~/Content/img/no_image.jpg")"/>
                     }
                     <div class="caption">
+                        <span class="pull-right label label-primary">@p.Price.ToString("# руб")</span>
                         <h3>@p.Name</h3>
                         <p>
-                            <a href="#" class="btn btn-info" role="button"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;Подробе</a>
+                            @*<a href="@Url.Action("Info", new {productId =p.ProductId})" class="btn btn-info" role="button"></a>*@
+                            <button class="btn btn-info info-btn" onclick="showInfo('@Url.Action("Info", new {productId = p.ProductId})')">
+                                <span class="glyphicon glyphicon-info-sign"></span>
+                                &nbsp;Подробно
+                            </button>
                             <a href="@Url.Action("AddToCart", new {productId = p.ProductId})" class="btn btn-default" role="button">
                                 <span class="glyphicon glyphicon-shopping-cart"></span>
                                 &nbsp;В корзину
                             </a>
                         </p>
-                        <p><span class="pull-right label label-primary">@p.Price.ToString("# руб")</span></p>
                         <p>@p.Description</p>
                     </div>
                 </div>
@@ -48,4 +52,4 @@
 <div class="btn-group pull-right">
     @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new {page = x}))
 </div>
-@Scripts.Render("~/Scripts/content-list.js");
+@Scripts.Render("~/Scripts/modal.js");

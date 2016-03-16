@@ -8,11 +8,17 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
 <nav id="top" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
-            <a class="navbar-brand" href="@Url.Action("List", "Content", new {page = 1})">
-                <span class="glyphicon glyphicon-send"></span>&nbsp;InternetShop
-            </a>
+        <a class="navbar-brand" href="@Url.Action("List", "Content", new {page = 1})">
+            <span class="glyphicon glyphicon-send"></span>&nbsp;InternetShop
+        </a>
     </div>
 </nav>
 <div class="row panel">
@@ -40,5 +46,4 @@
     });
 </script>
 </body>
-
 </html>

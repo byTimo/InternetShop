@@ -65,5 +65,12 @@ namespace InternetShop.WebUI.Controllers
         {
             return View(cart);
         }
+
+        public PartialViewResult Info(int productId)
+        {
+            var product = productsRepository.Products.First(p => p.ProductId == productId);
+            var productViewModel = ProductViewModel.Create(product);
+            return PartialView(productViewModel);
+        }
     }
 }

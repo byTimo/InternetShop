@@ -1,0 +1,53 @@
+﻿@using InternetShop.DataLayer.Entities
+@using InternetShop.WebUI.Models
+@model ProductViewModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h3 class="modal-title text-primary">
+        <span class="glyphicon glyphicon-question-sign"></span>
+        &nbsp;Информация о товаре
+    </h3>
+</div>
+<div class="modal-body">
+    <div class="label label-info">@Model.Type.ToString()</div>
+    <div class="row">
+        <div class="col-sm-5">
+            @Html.LabelFor(m => m.Name, new {@class = "control-label"})
+            <p>@Model.Name</p>
+
+            @Html.LabelFor(m => m.Price, new {@class = "control-label"})
+            <p>@Model.Price.ToString("# руб")</p>
+
+            @Html.LabelFor(m => m.Year, new {@class = "control-label"})
+            <p>@Model.Year</p>
+            @if (Model.Type == ProductType.Audio)
+            {
+                @Html.LabelFor(m => m.Perfomer, new {@class = "control-label"})
+                <p>@Model.Perfomer</p>
+                @Html.LabelFor(m => m.MusicalDirection, new {@class = "control-label"})
+                <p>@Model.MusicalDirection</p>
+            }
+            else
+            {
+                @Html.LabelFor(m => m.Director, new {@class = "control-label"})
+                <p>@Model.Director</p>
+                @Html.LabelFor(m => m.Genre, new {@class = "control-label"})
+                <p>@Model.Genre</p>
+            }
+        </div>
+        <div class="col-sm-7">
+            <img id="image" style="width: 300px; height: 250px" src="@Url.Action("GetImage", new {productId = Model.ProductId})" class="img-responsive pull-right"/>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description, new {@class = "control-label"})
+        <p>@Model.Description</p>
+    </div>
+</div>
+<div class="modal-footer">
+    <a href="@Url.Action("AddToCart", new {productId = Model.ProductId})" class="btn btn-success">
+        <span class="glyphicon glyphicon-shopping-cart"></span>
+        &nbsp;В корзину
+    </a>
+</div>
