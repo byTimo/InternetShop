@@ -17,7 +17,10 @@
                         <h3>@p.Name</h3>
                         <p>
                             <a href="#" class="btn btn-info" role="button"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;Подробе</a>
-                            <a href="#" class="btn btn-default" role="button"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;В корзину</a>
+                            <a href="@Url.Action("AddToCart", new {productId = p.ProductId})" class="btn btn-default" role="button">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                                &nbsp;В корзину
+                            </a>
                         </p>
                         <p><span class="pull-right label label-primary">@p.Price.ToString("# руб")</span></p>
                         <p>@p.Description</p>

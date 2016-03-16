@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using InternetShop.DataLayer;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.WebUI.Models;
 
@@ -28,6 +29,24 @@ namespace InternetShop.WebUI.Controllers
             };
 
             return View(model);
+        }
+
+        public ActionResult AddToCart(int productId)
+        {
+            var product = productsRepository.Products.First(p => p.ProductId == productId);
+            GetCart().AddItem(product, 1);
+            return RedirectToAction("List");
+        }
+
+        private Cart GetCart()
+        {
+            var cart = Session["Cart"] as Cart;
+            if (cart == null)
+            {
+                cart = new Cart();
+                Session["Cart"] = cart;
+            }
+            return cart;
         }
     }
 }
