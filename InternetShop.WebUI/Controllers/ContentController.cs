@@ -22,7 +22,8 @@ namespace InternetShop.WebUI.Controllers
             {
                 Products = productsRepository.Products
                     .Skip((page - 1)*PageSize)
-                    .Take(PageSize),
+                    .Take(PageSize)
+                    .Select(ProductViewModel.Create),
                 PagingInfo = new PagingInfo(page, PageSize, productsRepository.Products.Count())
             };
 

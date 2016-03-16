@@ -36,7 +36,7 @@ namespace InternetShop.WebUI.Tests
             var pageModel = (ProductListViewModel) controller.List().Model;
 
             Assert.That(pageModel.Products.Count(), Is.EqualTo(controller.PageSize));
-            CollectionAssert.AreEqual(testData.Take(controller.PageSize), pageModel.Products);
+            CollectionAssert.AreEqual(testData.Take(controller.PageSize), pageModel.Products.Select(p => p.ToProduct()));
             Assert.That(pageModel.PagingInfo.CurrentPage, Is.EqualTo(1));
         }
 
@@ -46,7 +46,7 @@ namespace InternetShop.WebUI.Tests
             var pageModel = (ProductListViewModel) controller.List(2).Model;
 
             Assert.That(pageModel.Products.Count(), Is.EqualTo(5));
-            CollectionAssert.AreEqual(testData.Skip(controller.PageSize).ToList(), pageModel.Products);
+            CollectionAssert.AreEqual(testData.Skip(controller.PageSize).ToList(), pageModel.Products.Select(p => p.ToProduct()));
             Assert.That(pageModel.PagingInfo.CurrentPage, Is.EqualTo(2));
         }
     }

@@ -58,6 +58,7 @@
     <Compile Include="Abstract\IOrderesRepository.cs" />
     <Compile Include="Abstract\IProductsRepository.cs" />
     <Compile Include="Abstract\IUsersRepository.cs" />
+    <Compile Include="Cart.cs" />
     <Compile Include="Entities\Audio.cs" />
     <Compile Include="Entities\ProductType.cs" />
     <Compile Include="InternetShopContext.cs" />
