@@ -67,6 +67,8 @@ create table Products
   Director nvarchar( 50 ) null,
   Genre nvarchar( 50 ) null,
   ProductType tinyint not null,
+  ImageData varbinary( max ) null,
+  ImageMimeType varchar( 50 ) null
 
   constraint PK_Products primary key clustered ( ProductId ASC )
 )

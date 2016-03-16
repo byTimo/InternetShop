@@ -21,7 +21,7 @@
         </h2>
     </div>
     <div class="panel-body">
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("EditProduct", "Admin", FormMethod.Post, new {enctype = "multipart/form-data"}))
         {
             @Html.HiddenFor(m => m.ProductId)
             @Html.HiddenFor(m => m.Type)
@@ -66,6 +66,18 @@
                 @Html.LabelFor(m => m.Description, new {@class = "control-label"})
                 @Html.TextAreaFor(m => m.Description, new {@class = "form-control"})
             </div>
+            <div class="form-group">
+                <label class="control-label">Изображение</label>
+                @if (Model.ImageData != null)
+                {
+                    <img id="image" style="width: 270px; height: 240px" src="@Url.Action("GetImage", "Content", new {productId = Model.ProductId})"/>
+                }
+                else
+                {
+                    <img id="image" style="width: 270px; height: 240px" src="@Url.Content("~/Content/img/no_image.jpg")"/>
+                }
+                <input id="input-image" name="NewImage" class="input-files" type="file"/>
+            </div>
             <div class="panel-footer">
                 <input type="submit" value="Сохранить" class="btn btn-success"/>
                 @Html.ActionLink("Отменить", "ProductList", null, new {@class = "btn btn-default"})
@@ -73,3 +85,31 @@
         }
     </div>
 </div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#input-image").bind({
+                change: function() {
+                    displayFiles(this.files[0]);
+                }
+            });
+
+            function displayFiles(file) {
+
+                if (!file.type.match(/image.*/)) {
+                    return;
+                }
+                var img = $("#image");
+                var reader = new FileReader();
+                reader.onload = (function(aImg) {
+                    return function(e) {
+                        aImg.attr('src', e.target.result);
+                    };
+                })(img);
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+}

@@ -17,6 +17,10 @@ namespace InternetShop.DataLayer.Entities
 
         public decimal Price { get; set; }
 
+        public byte[] ImageData { get; set; }
+        
+        public string ImageMimeType { get; set; }
+
         public virtual ICollection<OrderedProduct> OrderedProducts { get; set; }
 
         protected Product()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using InternetShop.DataLayer.Entities;
 
@@ -43,6 +44,11 @@ namespace InternetShop.WebUI.Models
         [Display(Name = "Жанр фильма")]
         public string Genre { get; set; }
 
+        public HttpPostedFileBase NewImage { get; set; }
+
+        public byte[] ImageData { get; set; }
+        public string ImageMimeType { get; set; }
+
         public IEnumerable<SelectListItem> Types => Enum.GetValues(typeof (ProductType))
             .Cast<ProductType>()
             .Select(t => new SelectListItem
@@ -71,6 +77,8 @@ namespace InternetShop.WebUI.Models
             Description = product.Description;
             Year = product.Year;
             Price = product.Price;
+            ImageData = product.ImageData;
+            ImageMimeType = product.ImageMimeType;
         }
 
         public ProductViewModel(Video video)
@@ -106,32 +114,53 @@ namespace InternetShop.WebUI.Models
             }
         }
 
-        private Audio ToAudio()
+        private Product ToAudio()
         {
-            return new Audio
+            var audio = new Audio
             {
-                ProductId = ProductId,
-                Name = Name,
-                Price = Price,
-                Description = Description,
                 MusicalDirection = MusicalDirection,
                 Perfomer = Perfomer,
-                Year = Year
             };
+            return MatchCommonFields(audio);
         }
 
-        private Video ToVideo()
+        private Product ToVideo()
         {
-            return new Video
+            var video = new Video
             {
-                ProductId = ProductId,
-                Name = Name,
-                Price = Price,
-                Description = Description,
                 Director = Director,
                 Genre = Genre,
-                Year = Year
             };
+            return MatchCommonFields(video);
+        }
+
+        private Product MatchCommonFields(Product product)
+        {
+            product.ProductId = ProductId;
+            product.Name = Name;
+            product.Price = Price;
+            product.Description = Description;
+            product.Year = Year;
+            ReadImageInformation(product);
+            return product;
+        }
+
+        private void ReadImageInformation(Product product)
+        {
+            if (NewImage == null)
+            {
+                product.ImageData = ImageData;
+                product.ImageMimeType = ImageMimeType;
+            } 
+            else
+            {
+                product.ImageMimeType = NewImage.ContentType;
+                product.ImageData = new byte[NewImage.ContentLength];
+                using (var imageStream = NewImage.InputStream)
+                {
+                    imageStream.Read(product.ImageData, 0, NewImage.ContentLength);
+                }
+            }
         }
     }
 }
