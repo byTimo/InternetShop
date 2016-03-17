@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Threading.Tasks;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.DataLayer.Entities;
 
 namespace InternetShop.DataLayer
 {
-    public class UsersRepository : IUsersRepository, IDisposable
+    public class UsersRepository : IUsersRepository
     {
         private readonly InternetShopContext context;
 
@@ -17,32 +18,34 @@ namespace InternetShop.DataLayer
         public IEnumerable<User> Users => context.Users;
         public IEnumerable<Role> Roles => context.Roles;
 
-        public User CreateUser(User user)
+        public async Task CreateUser(User user)
         {
-            var addedUser = context.Users.Add(user);
-            context.SaveChangesAsync();
-            return addedUser;
+            context.Entry(user).State = EntityState.Added;
+            await context.SaveChangesAsync();
         }
 
-        public User DeleteUser(User user)
+        public async Task DeleteUser(User user)
         {
-            var deletedUser = context.Users.Remove(user);
-            context.SaveChangesAsync();
-            return deletedUser;
+            context.Entry(user).State = EntityState.Deleted;
+            await context.SaveChangesAsync();
         }
 
-        public Role CreateRole(Role role)
+        public async Task UpdateUser(User user)
         {
-            var addedRole = context.Roles.Add(role);
-            context.SaveChangesAsync();
-            return addedRole;
+            context.Entry(user).State = EntityState.Modified;
+            await context.SaveChangesAsync();
         }
 
-        public Role DeleteRole(Role role)
+        public async Task CreateRole(Role role)
         {
-            var deletedRole = context.Roles.Remove(role);
-            context.SaveChangesAsync();
-            return deletedRole;
+            context.Entry(role).State = EntityState.Added;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task DeleteRole(Role role)
+        {
+            context.Entry(role).State = EntityState.Added;
+            await context.SaveChangesAsync();
         }
 
         public void Dispose()

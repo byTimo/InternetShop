@@ -30,6 +30,7 @@ namespace InternetShop.WebUI.Infrastructure
         private void AddBindings()
         {
             kernel.Bind<IProductsRepository>().To<ProductsRepository>();
+            kernel.Bind<IUsersRepository>().To<UsersRepository>();
         }
     }
 }

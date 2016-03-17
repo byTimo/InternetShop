@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using InternetShop.DataLayer.Entities;
 
 namespace InternetShop.DataLayer.Abstract
@@ -9,11 +10,10 @@ namespace InternetShop.DataLayer.Abstract
         IEnumerable<User> Users { get; }
         IEnumerable<Role> Roles { get; }
 
-        User CreateUser(User user);
-        User DeleteUser(User user);
-        Role CreateRole(Role role);
-        Role DeleteRole(Role role);
-
-
+        Task CreateUser(User user);
+        Task DeleteUser(User user);
+        Task UpdateUser(User user);
+        Task CreateRole(Role role);
+        Task DeleteRole(Role role);
     }
 }
