@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using InternetShop.DataLayer.Abstract;
-using InternetShop.WebUI.Models.AcountModels;
+using InternetShop.WebUI.Models.AccountModels;
 using Microsoft.AspNet.Identity;
 
-namespace InternetShop.WebUI.Infrastructure.AcountInfrastructure
+namespace InternetShop.WebUI.Infrastructure.AccountInfrastructure
 {
-    public class InternetShopUserStore : IUserStore<ApplicationUser>
+    public class InternetShopUserStore : IUserStore<ApplicationUser>, IUserPasswordStore<ApplicationUser>
     {
         private readonly IUsersRepository usersRepository;
 
@@ -58,6 +58,22 @@ namespace InternetShop.WebUI.Infrastructure.AcountInfrastructure
                     return null;
                 return new ApplicationUser(entityUser);
             });
+        }
+
+        public Task SetPasswordHashAsync(ApplicationUser user, string passwordHash)
+        {
+            user.PasswordHash = passwordHash;
+            return Task.FromResult(0);
+        }
+
+        public Task<string> GetPasswordHashAsync(ApplicationUser user)
+        {
+            return Task.FromResult(user.PasswordHash);
+        }
+
+        public Task<bool> HasPasswordAsync(ApplicationUser user)
+        {
+            return Task.FromResult(string.IsNullOrEmpty(user.PasswordHash));
         }
     }
 }

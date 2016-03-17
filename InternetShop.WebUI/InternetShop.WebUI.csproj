@@ -184,21 +184,22 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ContentController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HtmlHelpers\PagingHelpers.cs" />
-    <Compile Include="Infrastructure\AcountInfrastructure\InternetShopPasswordHasher.cs" />
-    <Compile Include="Infrastructure\AcountInfrastructure\InternetShopUserManager.cs" />
-    <Compile Include="Infrastructure\AcountInfrastructure\InternetShopUserStore.cs" />
+    <Compile Include="Infrastructure\AccountInfrastructure\InternetShopUserManager.cs" />
+    <Compile Include="Infrastructure\AccountInfrastructure\InternetShopUserStore.cs" />
     <Compile Include="Infrastructure\Binders\CartBinder.cs" />
     <Compile Include="Infrastructure\InternetShopDependencyResolver.cs" />
-    <Compile Include="Models\AcountModels\ApplicationUser.cs" />
+    <Compile Include="Models\AccountModels\ApplicationUser.cs" />
     <Compile Include="Models\Helpers\PagingInfo.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\ProductListViewModel.cs" />
+    <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Tests\AdminControllerTester.cs" />
@@ -252,6 +253,7 @@
     <Content Include="Views\Admin\CreateProduct.cshtml" />
     <Content Include="Views\Content\Cart.cshtml" />
     <Content Include="Views\Content\Info.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

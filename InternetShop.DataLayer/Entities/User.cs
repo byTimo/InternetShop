@@ -18,11 +18,9 @@ namespace InternetShop.DataLayer.Entities
         [StringLength(124)]
         public string Name { get; set; }
 
-        [Required]
         [StringLength(124)]
         public string Surname { get; set; }
 
-        [Required]
         [StringLength(256)]
         public string Address { get; set; }
 

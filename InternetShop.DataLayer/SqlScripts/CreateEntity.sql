@@ -19,8 +19,8 @@ create table Users
   Email nvarchar( 256 ) not null,
   PasswordHash nvarchar( MAX ) not null,
   Name nvarchar( 124 ) not null,
-  Surname nvarchar( 124 ) not null,
-  Address nvarchar( 256 ) not null,
+  Surname nvarchar( 124 ) null,
+  Address nvarchar( 256 ) null,
 
   constraint PK_Users primary key clustered ( UserId ASC )
 )

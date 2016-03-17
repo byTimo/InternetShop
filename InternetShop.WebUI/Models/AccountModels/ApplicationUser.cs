@@ -2,7 +2,7 @@
 using InternetShop.DataLayer.Entities;
 using Microsoft.AspNet.Identity;
 
-namespace InternetShop.WebUI.Models.AcountModels
+namespace InternetShop.WebUI.Models.AccountModels
 {
     public class ApplicationUser : IUser
     {
