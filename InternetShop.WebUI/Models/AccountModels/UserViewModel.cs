@@ -10,7 +10,7 @@ namespace InternetShop.WebUI.Models.AccountModels
 
         [Required(ErrorMessage = "Не указан Email")]
         [Display(Name = "Emai")]
-        [DataType(DataType.Password, ErrorMessage = "Не верный формат")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Не верный формат")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Не указано имя")]
@@ -19,6 +19,10 @@ namespace InternetShop.WebUI.Models.AccountModels
 
         [Display(Name = "Фамилия пользователя")]
         public string Surname { get; set; }
+
+        [Display(Name = "Пароль")]
+        [Required(ErrorMessage = "Не указан пароль")]
+        public string Password { get; set; }
 
         [HiddenInput(DisplayValue = false)]
         public string PasswordHash { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using InternetShop.DataLayer.Abstract;
@@ -31,7 +32,6 @@ namespace InternetShop.WebUI.Controllers
 
         public ViewResult CreateProduct()
         {
-            ViewBag.Title = "Админ панель : Создание товара";
             return View(new ProductViewModel());
         }
 
@@ -83,6 +83,35 @@ namespace InternetShop.WebUI.Controllers
         {
             var users = UserManager.Users.Select(UserViewModel.Create);
             return View(users);
+        }
+
+        public ActionResult CreateUser()
+        {
+            return View(new UserViewModel());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateUser(UserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var appUser = model.ToApplicationUser();
+                var result = await UserManager.CreateAsync(appUser, model.Password);
+                if (result.Succeeded)
+                {
+                    TempData["message"] = "Пользователь успешно создан!";
+                    return RedirectToAction("UserList");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+            }
+            TempData["error-message"] = "Возникли ошибки про создании пользователя";
+            return View(model);
         }
 
         protected override void Dispose(bool disposing)
