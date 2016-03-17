@@ -55,7 +55,7 @@
                 <tr>
                     <td clas="text-center">@item.Email</td>
                     <td>
-                        <a href="#">@(item.Surname ?? "[нет фамилии]") @item.Name</a>
+                        <a href="@Url.Action("EditUser", new { userId = @item.UserId })">@(item.Surname ?? "[нет фамилии]") @item.Name</a>
                     </td>
                     <td class="text-center">@(item.Address ?? "[нет адреса]")</td>
                     <td class="text-center">

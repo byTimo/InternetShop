@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -102,15 +103,42 @@ namespace InternetShop.WebUI.Controllers
                     TempData["message"] = "Пользователь успешно создан!";
                     return RedirectToAction("UserList");
                 }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error);
-                    }
-                }
+                AddAllErrorsToModelState(result.Errors);
             }
-            TempData["error-message"] = "Возникли ошибки про создании пользователя";
+            TempData["error-message"] = "Возникли ошибки при создании пользователя";
+            return View(model);
+        }
+
+        private void AddAllErrorsToModelState(IEnumerable<string> errors)
+        {
+            foreach (var error in errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
+
+        public ActionResult EditUser(string userId)
+        {
+            var appUser = UserManager.FindByIdAsync(userId).Result;
+            return View(UserViewModel.Create(appUser));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditUser(UserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var changingUser = await UserManager.FindByIdAsync(model.UserId);
+                changingUser = model.ToApplicationUser(changingUser);
+                var result = await UserManager.UpdateAsync(changingUser);
+                if (result.Succeeded)
+                {
+                    TempData["message"] = "Пользователь успешно изменён!";
+                    return RedirectToAction("UserList");
+                }
+                AddAllErrorsToModelState(result.Errors);
+            }
+            TempData["error-message"] = "Возникли ошибки при изменении пользователя!";
             return View(model);
         }
 

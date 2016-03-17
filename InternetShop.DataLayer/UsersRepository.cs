@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Threading.Tasks;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.DataLayer.Entities;
@@ -32,7 +33,7 @@ namespace InternetShop.DataLayer
 
         public async Task UpdateUser(User user)
         {
-            context.Entry(user).State = EntityState.Modified;
+            context.Users.AddOrUpdate(user);
             await context.SaveChangesAsync();
         }
 
