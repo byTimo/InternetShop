@@ -9,16 +9,29 @@
 
 @section sidemenu
 {
+
     <ul class="nav nav-pills nav-stacked">
         <li class="active" role="presentation">
             <a href="@Url.Action("Cart")">Корзина <span class="badge">@ViewBag.ProductInCartCount</span></a>
         </li>
-        <li role="presentation">
-            <a href="@Url.Action("Register", "Account")">Регистрация</a>
-        </li>
-        <li role = "presentation">
-            @Html.ActionLink("Админмод", "ProductList", "Admin")
-        </li>
+        @if (ViewBag.IsAuthenticated)
+        {
+            <li role="presentation">
+                <a href="@Url.Action("Logout", "Account")">Выход</a>
+            </li>
+            <li role="presentation">
+                @Html.ActionLink("Админмод", "ProductList", "Admin")
+            </li>
+        }
+        else
+        {
+            <li role="presentation">
+                <a href="@Url.Action("Login", "Account")">Вход</a>
+            </li>
+            <li role="presentation">
+                <a href="@Url.Action("Register", "Account")">Регистрация</a>
+            </li>
+        }
     </ul>
 }
 

@@ -53,7 +53,7 @@ namespace InternetShop.WebUI.Infrastructure.AccountInfrastructure
         {
             return Task.Run(() =>
             {
-                var entityUser = usersRepository.Users.FirstOrDefault(u => u.Name == userName);
+                var entityUser = usersRepository.Users.FirstOrDefault(u => u.Email == userName);
                 if (entityUser == null)
                     return null;
                 return new ApplicationUser(entityUser);

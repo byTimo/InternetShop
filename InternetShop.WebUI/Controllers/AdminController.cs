@@ -5,6 +5,7 @@ using InternetShop.WebUI.Models;
 
 namespace InternetShop.WebUI.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private  readonly IProductsRepository repository;

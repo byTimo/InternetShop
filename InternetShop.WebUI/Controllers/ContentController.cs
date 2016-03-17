@@ -28,6 +28,7 @@ namespace InternetShop.WebUI.Controllers
                 PagingInfo = new PagingInfo(page, PageSize, productsRepository.Products.Count())
             };
             ViewBag.ProductInCartCount = cart.ProductsInCart.Count;
+            ViewBag.IsAuthenticated = User.Identity.IsAuthenticated;
             return View(model);
         }
 

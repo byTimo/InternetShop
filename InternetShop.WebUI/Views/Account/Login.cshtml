@@ -1,0 +1,26 @@
+﻿@using InternetShop.WebUI.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Login</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.ValidationSummary()
+        <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl"/>
+        <div>
+            @Html.LabelFor(m => m.Email)
+            @Html.EditorFor(m => m.Email)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Password)
+            @Html.EditorFor(m => m.Password)
+        </div>
+        <input type="submit" value="Войти"/>
+    </div>
+}

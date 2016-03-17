@@ -11,22 +11,22 @@ namespace InternetShop.WebUI.Models.AccountModels
         public string Surname { get; set; }
         public string PasswordHash { get; set; }
         public string Address { get; set; }
-        public string Email { get; set; }
+        public string Name { get; set; }
 
-        public ApplicationUser(string name)
+        public ApplicationUser(string email)
         {
             Id = Guid.NewGuid().ToString();
-            UserName = name;
+            UserName = email;
         }
 
         public ApplicationUser(User user)
         {
             Id = user.UserId;
-            UserName = user.Name;
+            UserName = user.Email;
             Surname = user.Surname;
             PasswordHash = user.PasswordHash;
             Address = user.Address;
-            Email = user.Email;
+            Name = user.Name;
         }
 
         public User ToUserEntity()
@@ -34,10 +34,10 @@ namespace InternetShop.WebUI.Models.AccountModels
             return new User
             {
                 UserId = Id,
-                Name = UserName,
+                Name = Name,
                 Surname = Surname,
                 PasswordHash = PasswordHash,
-                Email = Email,
+                Email = UserName,
                 Address = Address
             };
         }

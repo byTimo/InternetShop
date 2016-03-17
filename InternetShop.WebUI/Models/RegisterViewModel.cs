@@ -5,7 +5,7 @@ namespace InternetShop.WebUI.Models
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "Name")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
