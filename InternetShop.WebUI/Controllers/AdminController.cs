@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using InternetShop.DataLayer.Abstract;
-using InternetShop.WebUI.Models;
+using InternetShop.WebUI.Models.ProductModels;
 
 namespace InternetShop.WebUI.Controllers
 {
@@ -17,7 +17,10 @@ namespace InternetShop.WebUI.Controllers
 
         public ViewResult ProductList()
         {
-            var allProducts = repository.Products;
+            var allProducts = new ProductListViewModel
+            {
+                Products = repository.Products.Select(ProductViewModel.Create)
+            };
             return View(allProducts);
         }
 

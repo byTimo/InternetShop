@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace InternetShop.WebUI.Models
+namespace InternetShop.WebUI.Models.AccountModels
 {
     public class LoginViewModel
     {

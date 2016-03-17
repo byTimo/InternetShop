@@ -1,4 +1,5 @@
-﻿@model IEnumerable<InternetShop.DataLayer.Entities.Product>
+﻿@using InternetShop.WebUI.Models.ProductModels
+@model ProductListViewModel
 
 @{
     ViewBag.Title = "Админ панель: Список товаров";
@@ -32,7 +33,7 @@
                 <th class="text-center">Цена</th>
                 <th class="text-center">Действия</th>
             </tr>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Products)
             {
                 <tr>
                     <td clas="text-center">@item.ProductId</td>

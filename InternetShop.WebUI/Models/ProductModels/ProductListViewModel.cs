@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace InternetShop.WebUI.Models
+namespace InternetShop.WebUI.Models.ProductModels
 {
     public class ProductListViewModel
     {

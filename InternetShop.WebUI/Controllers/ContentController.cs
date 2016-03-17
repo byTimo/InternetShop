@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using InternetShop.DataLayer;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.WebUI.Models;
+using InternetShop.WebUI.Models.ProductModels;
 
 namespace InternetShop.WebUI.Controllers
 {

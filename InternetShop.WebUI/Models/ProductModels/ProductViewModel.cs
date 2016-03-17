@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using InternetShop.DataLayer.Entities;
 
-namespace InternetShop.WebUI.Models
+namespace InternetShop.WebUI.Models.ProductModels
 {
     public class ProductViewModel
     {

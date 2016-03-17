@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using InternetShop.WebUI.Infrastructure.AccountInfrastructure;
-using InternetShop.WebUI.Models;
 using InternetShop.WebUI.Models.AccountModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -88,12 +87,6 @@ namespace InternetShop.WebUI.Controllers
             AuthManager.SignIn(authProperties, claim);
         }
 
-        private Task<ClaimsIdentity> CreateClaimForUser(ApplicationUser user)
-        {
-            return UserManager.ClaimsIdentityFactory
-                .CreateAsync(UserManager, user, DefaultAuthenticationTypes.ApplicationCookie);
-        }
-
         private ActionResult RedirectToNextAction(string returnUrl)
         {
             if (string.IsNullOrEmpty(returnUrl))
@@ -102,6 +95,13 @@ namespace InternetShop.WebUI.Controllers
             }
             return Redirect(returnUrl);
         }
+
+        private Task<ClaimsIdentity> CreateClaimForUser(ApplicationUser user)
+        {
+            return UserManager.ClaimsIdentityFactory
+                .CreateAsync(UserManager, user, DefaultAuthenticationTypes.ApplicationCookie);
+        }
+
 
         public ActionResult Logout(string returnUrl)
         {
