@@ -2,38 +2,49 @@
 @model RegisterViewModel
 
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Регистрация";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Register</h2>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    <div>
-        @Html.ValidationSummary(false)
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3>
+            <span class="glyphicon glyphicon-list-alt"></span>
+            &nbsp;Регистрация
+        </h3>
     </div>
-    <div>
-        @Html.LabelFor(m => m.Email)
-        @Html.EditorFor(m => m.Email)
-        @Html.ValidationMessageFor(m => m.Email)
-    </div>
-    <div>
-        @Html.LabelFor(m => m.Name)
-        @Html.EditorFor(m => m.Name)
-        @Html.ValidationMessageFor(m => m.Name)
-    </div>
-    <div>
-        @Html.LabelFor(m => m.Password)
-        @Html.EditorFor(m => m.Password)
-        @Html.ValidationMessageFor(m => m.Password)
-    </div>
-    <div>
-        @Html.LabelFor(m => m.PasswordConfirm)
-        @Html.EditorFor(m => m.PasswordConfirm)
-        @Html.ValidationMessageFor(m => m.PasswordConfirm)
-    </div>
-    <div>
-        <input type="submit" value="Зарегистрировать"/>
-    </div>
-}
+    @using (Html.BeginForm())
+    {
+        <div class="panel-body">
+            @Html.AntiForgeryToken()
+            
+                @Html.ValidationSummary(false)
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.PasswordConfirm, new { @class = "control-label" })
+                @Html.PasswordFor(m => m.PasswordConfirm, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.PasswordConfirm)
+            </div>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Зарегистрировать" class="btn btn-primary"/>
+            <a href="@Url.Action("List", "Content")" class="btn btn-default">
+                Вернуться к списку товаров
+            </a>
+        </div>
+    }
+</div>

@@ -1,26 +1,36 @@
 ﻿@using InternetShop.WebUI.Models
 @model LoginViewModel
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Вход";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Login</h2>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div>
-        @Html.ValidationSummary()
-        <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl"/>
-        <div>
-            @Html.LabelFor(m => m.Email)
-            @Html.EditorFor(m => m.Email)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.Password)
-            @Html.EditorFor(m => m.Password)
-        </div>
-        <input type="submit" value="Войти"/>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3>
+            <span class="glyphicon glyphicon-log-in"></span>
+            &nbsp;Вход
+        </h3>
     </div>
-}
+    @using (Html.BeginForm())
+    {
+        <div class="panel-body">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
+            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl"/>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new {@class = "control-label"})
+                @Html.TextBoxFor(m => m.Email, new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new {@class = "control-label"})
+                @Html.PasswordFor(m => m.Password, new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+        </div>
+        <div class="panel-footer">
+            <input class="btn btn-primary" type="submit" value="Войти"/>
+            <a href="@Url.Action("List", "Content")" class="btn btn-default">Вернуться к списку товаров</a>
+        </div>
+    }
+</div>

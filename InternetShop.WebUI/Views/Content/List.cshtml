@@ -12,24 +12,40 @@
 
     <ul class="nav nav-pills nav-stacked">
         <li class="active" role="presentation">
-            <a href="@Url.Action("Cart")">Корзина <span class="badge">@ViewBag.ProductInCartCount</span></a>
+            <a href="@Url.Action("Cart")">
+                <span class="glyphicon glyphicon-shopping-cart"></span>
+                &nbsp;Корзина 
+                <span class="badge">@ViewBag.ProductInCartCount</span>
+            </a>
         </li>
         @if (ViewBag.IsAuthenticated)
         {
             <li role="presentation">
-                <a href="@Url.Action("Logout", "Account")">Выход</a>
+                <a href="@Url.Action("Logout", "Account")">
+                    <span class="glyphicon glyphicon-log-out"></span>
+                    &nbsp;Выход
+                </a>
             </li>
             <li role="presentation">
-                @Html.ActionLink("Админмод", "ProductList", "Admin")
+                <a href="@Url.Action("ProductList", "Admin")">
+                    <span class="glyphicon glyphicon-cog"></span>
+                    &nbsp;Управление
+                </a>
             </li>
         }
         else
         {
             <li role="presentation">
-                <a href="@Url.Action("Login", "Account")">Вход</a>
+                <a href="@Url.Action("Login", "Account")">
+                    <span class="glyphicon glyphicon-log-in"></span>
+                    &nbsp;Вход
+                </a>
             </li>
             <li role="presentation">
-                <a href="@Url.Action("Register", "Account")">Регистрация</a>
+                <a href="@Url.Action("Register", "Account")">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    &nbsp;Регистрация
+                </a>
             </li>
         }
     </ul>
