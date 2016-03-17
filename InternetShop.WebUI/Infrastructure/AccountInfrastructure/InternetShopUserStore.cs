@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.WebUI.Models.AccountModels;
@@ -9,6 +10,11 @@ namespace InternetShop.WebUI.Infrastructure.AccountInfrastructure
     public class InternetShopUserStore : IUserStore<ApplicationUser>, IUserPasswordStore<ApplicationUser>
     {
         private readonly IUsersRepository usersRepository;
+
+        public IEnumerable<ApplicationUser> Users
+        {
+            get { return usersRepository.Users.Select(u => new ApplicationUser(u)); }
+        }
 
         public InternetShopUserStore(IUsersRepository usersRepository)
         {

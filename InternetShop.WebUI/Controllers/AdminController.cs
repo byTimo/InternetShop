@@ -1,7 +1,11 @@
 ﻿using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using InternetShop.DataLayer.Abstract;
+using InternetShop.WebUI.Infrastructure.AccountInfrastructure;
+using InternetShop.WebUI.Models.AccountModels;
 using InternetShop.WebUI.Models.ProductModels;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace InternetShop.WebUI.Controllers
 {
@@ -9,6 +13,7 @@ namespace InternetShop.WebUI.Controllers
     public class AdminController : Controller
     {
         private  readonly IProductsRepository repository;
+        private InternetShopUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<InternetShopUserManager>();
 
         public AdminController(IProductsRepository repository)
         {
@@ -72,6 +77,12 @@ namespace InternetShop.WebUI.Controllers
             repository.DeleteProduct(product);
             TempData["message"] = $"Товар {product.Name} успешно удалён!";
             return RedirectToAction("ProductList");
+        }
+
+        public ActionResult UserList()
+        {
+            var users = UserManager.Users.Select(UserViewModel.Create);
+            return View(users);
         }
 
         protected override void Dispose(bool disposing)

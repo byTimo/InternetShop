@@ -7,15 +7,31 @@
 }
 
 @section sidemenu{
-<div>
-    <ul class="nav nav-stacked nav-pills">
-        <li class="active" role="presentation">
-            <a href="@Url.Action("CreateProduct")">
-                <span class="glyphicon glyphicon-plus"></span>&nbsp;Добавить товар
-            </a>
-        </li>
-    </ul>
-</div>
+    <div>
+
+        <ul class="nav nav-stacked nav-pills">
+            <li class="active" role="presentation">
+                <a href="@Url.Action("CreateProduct")">
+                    <span class="glyphicon glyphicon-plus"></span>&nbsp;Добавить товар
+                </a>
+            </li>
+            <li>
+                <hr/>
+            </li>
+            <li class="active" role="presentation">
+                <a href="@Url.Action("ProductList")">
+                    <span class="glyphicon glyphicon-phone"></span>
+                    &nbsp;Товары
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="@Url.Action("UserList")">
+                    <span class="glyphicon glyphicon-user"></span>
+                    &nbsp;Пользователи
+                </a>
+            </li>
+        </ul>
+    </div>
 }
 
 <div class="panel panel-primary">

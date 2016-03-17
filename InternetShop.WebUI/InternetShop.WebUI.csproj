@@ -196,6 +196,7 @@
     <Compile Include="Infrastructure\Binders\CartBinder.cs" />
     <Compile Include="Infrastructure\InternetShopDependencyResolver.cs" />
     <Compile Include="Models\AccountModels\ApplicationUser.cs" />
+    <Compile Include="Models\AccountModels\UserViewModel.cs" />
     <Compile Include="Models\HelperModels\PagingInfo.cs" />
     <Compile Include="Models\AccountModels\LoginViewModel.cs" />
     <Compile Include="Models\ProductModels\ProductViewModel.cs" />
@@ -256,6 +257,7 @@
     <Content Include="Views\Content\Info.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Admin\UserList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
