@@ -55,11 +55,11 @@
         <div class="col-sm-7">
             @if (@Model.ImageData != null)
             {
-                <img id="image" src="@Url.Action("GetImage", new {productId = Model.ProductId})" class="img-responsive pull-right"/>
+                <img id="image" src="@Url.Action("GetImage", new {productId = Model.ProductId})" class="img-thumbnail center-block"/>
             }
             else
             {
-                <img id="image" src="@Url.Content("~/Content/img/no_image.png")" />
+                <img id="image" src="@Url.Content("~/Content/img/no_image.png")" class="img-thumbnail center-block"/>
             }
         </div>
     </div>

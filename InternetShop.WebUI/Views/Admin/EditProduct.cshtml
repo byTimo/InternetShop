@@ -70,11 +70,11 @@
                         <div class="panel-body">
                             @if (Model.ImageData != null)
                             {
-                                <img id="image" style="width: 270px; height: 240px" src="@Url.Action("GetImage", "Content", new {productId = Model.ProductId})" />
+                                <img id="image" src="@Url.Action("GetImage", "Content", new {productId = Model.ProductId})" class="img-thumbnail center-block"/>
                             }
                             else
                             {
-                                <img id="image" style="width: 270px; height: 240px" src="@Url.Content("~/Content/img/no_image.png")" />
+                                <img id="image" src="@Url.Content("~/Content/img/no_image.png")" class="img-thumbnail center-block"/>
                             }
                         </div>
                     </div>

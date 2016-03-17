@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using InternetShop.WebUI.Infrastructure.AccountInfrastructure;
@@ -26,21 +28,28 @@ namespace InternetShop.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var newUser = new ApplicationUser(model.Email) {Name = model.Name};
-                var result = await UserManager.CreateAsync(newUser, model.Password);
+                var result = await TryRegisterUserFromModel(model);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("List", "Content");
                 }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error);
-                    }   
-                }
+                AddAllErrorInModelState(result.Errors);
             }
             return View(model);
+        }
+
+        private Task<IdentityResult> TryRegisterUserFromModel(RegisterViewModel model)
+        {
+            var newUser = new ApplicationUser(model.Email) { Name = model.Name };
+            return UserManager.CreateAsync(newUser, model.Password);
+        }
+
+        private void AddAllErrorInModelState(IEnumerable<string> errors)
+        {
+            foreach (var error in errors)
+            {
+                ModelState.AddModelError("", error);
+            }
         }
 
         public ActionResult Login(string returnUrl)
@@ -48,6 +57,7 @@ namespace InternetShop.WebUI.Controllers
             ViewBag.returnUrl = returnUrl;
             return View();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -62,24 +72,35 @@ namespace InternetShop.WebUI.Controllers
                 }
                 else
                 {
-                    var claim =
-                        await
-                            UserManager.ClaimsIdentityFactory.CreateAsync(UserManager, user,
-                                DefaultAuthenticationTypes.ApplicationCookie);
-                    AuthManager.SignOut();
-                    AuthManager.SignIn(new AuthenticationProperties
-                    {
-                        IsPersistent = true
-                    }, claim);
-                    if (string.IsNullOrEmpty(returnUrl))
-                    {
-                        return RedirectToAction("List", "Content");
-                    }
-                    return Redirect(returnUrl);
+                    await AuthorizeUser(user);
+                    return RedirectToNextAction(returnUrl);
                 }
             }
             ViewBag.returnUrl = returnUrl;
             return View(model);
+        }
+
+        private async Task AuthorizeUser(ApplicationUser user)
+        {
+            var claim = await CreateClaimForUser(user);
+            AuthManager.SignOut();
+            var authProperties = new AuthenticationProperties { IsPersistent = true };
+            AuthManager.SignIn(authProperties, claim);
+        }
+
+        private Task<ClaimsIdentity> CreateClaimForUser(ApplicationUser user)
+        {
+            return UserManager.ClaimsIdentityFactory
+                .CreateAsync(UserManager, user, DefaultAuthenticationTypes.ApplicationCookie);
+        }
+
+        private ActionResult RedirectToNextAction(string returnUrl)
+        {
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                return RedirectToAction("List", "Content");
+            }
+            return Redirect(returnUrl);
         }
 
         public ActionResult Logout(string returnUrl)
