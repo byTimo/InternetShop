@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using InternetShop.DataLayer.Entities;
 
 namespace InternetShop.WebUI.Models.AccountModels
 {
     public class UserViewModel
     {
-        [HiddenInput(DisplayValue = false)] 
+        [HiddenInput(DisplayValue = false)]
         public string UserId { get; set; }
 
         [Required(ErrorMessage = "Не указан Email")]
@@ -30,12 +31,12 @@ namespace InternetShop.WebUI.Models.AccountModels
         [Display(Name = "Адрес пользователя")]
         public string Address { get; set; }
 
-        public static UserViewModel Create(ApplicationUser user)
+        public static UserViewModel Create(User user)
         {
             return new UserViewModel
             {
-                UserId = user.Id,
-                Email = user.UserName,
+                UserId = user.UserId,
+                Email = user.Email,
                 Name = user.Name,
                 Surname = user.Surname,
                 PasswordHash = user.PasswordHash,
@@ -43,18 +44,25 @@ namespace InternetShop.WebUI.Models.AccountModels
             };
         }
 
-        public ApplicationUser ToApplicationUser()
+        public User ToUser()
         {
-            return ToApplicationUser(new ApplicationUser(Email));
+            return new User
+            {
+                UserId = UserId,
+                Email = Email,
+                Address = Address,
+                Name = Name,
+                Surname = Surname,
+                PasswordHash = PasswordHash
+            };
         }
 
-        public ApplicationUser ToApplicationUser(ApplicationUser user)
+        public IdentityUser ToIdentityUser()
         {
-            user.Name = Name;
-            user.Surname = Surname;
-            user.Address = Address;
-            user.PasswordHash = PasswordHash;
-            return user;
+            return new IdentityUser(ToUser())
+            {
+                Password = Password
+            };
         }
     }
 }

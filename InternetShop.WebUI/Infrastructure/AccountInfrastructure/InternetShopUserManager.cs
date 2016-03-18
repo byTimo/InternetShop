@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.WebUI.Models.AccountModels;
 using Microsoft.AspNet.Identity;
 
 namespace InternetShop.WebUI.Infrastructure.AccountInfrastructure
 {
-    public class InternetShopUserManager : UserManager<ApplicationUser>
+    public class InternetShopUserManager : UserManager<IdentityUser>
     {
-        public InternetShopUserManager(IUserStore<ApplicationUser> store) : base(store)
+        public InternetShopUserManager(IUserStore<IdentityUser> store) : base(store)
         {
         }
 
@@ -18,7 +17,5 @@ namespace InternetShop.WebUI.Infrastructure.AccountInfrastructure
                 new InternetShopUserManager(
                     new InternetShopUserStore(DependencyResolver.Current.GetService<IUsersRepository>()));
         }
-
-        public IEnumerable<ApplicationUser> Users => ((InternetShopUserStore) Store).Users;
     }
 }

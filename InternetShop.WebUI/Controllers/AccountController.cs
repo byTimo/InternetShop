@@ -39,7 +39,7 @@ namespace InternetShop.WebUI.Controllers
 
         private Task<IdentityResult> TryRegisterUserFromModel(RegisterViewModel model)
         {
-            var newUser = new ApplicationUser(model.Email) { Name = model.Name };
+            var newUser = new IdentityUser(model.Email) { Name = model.Name };
             return UserManager.CreateAsync(newUser, model.Password);
         }
 
@@ -79,7 +79,7 @@ namespace InternetShop.WebUI.Controllers
             return View(model);
         }
 
-        private async Task AuthorizeUser(ApplicationUser user)
+        private async Task AuthorizeUser(IdentityUser user)
         {
             var claim = await CreateClaimForUser(user);
             AuthManager.SignOut();
@@ -96,7 +96,7 @@ namespace InternetShop.WebUI.Controllers
             return Redirect(returnUrl);
         }
 
-        private Task<ClaimsIdentity> CreateClaimForUser(ApplicationUser user)
+        private Task<ClaimsIdentity> CreateClaimForUser(IdentityUser user)
         {
             return UserManager.ClaimsIdentityFactory
                 .CreateAsync(UserManager, user, DefaultAuthenticationTypes.ApplicationCookie);

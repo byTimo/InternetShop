@@ -195,7 +195,7 @@
     <Compile Include="Infrastructure\AccountInfrastructure\InternetShopUserStore.cs" />
     <Compile Include="Infrastructure\Binders\CartBinder.cs" />
     <Compile Include="Infrastructure\InternetShopDependencyResolver.cs" />
-    <Compile Include="Models\AccountModels\ApplicationUser.cs" />
+    <Compile Include="Models\AccountModels\IdentityUser.cs" />
     <Compile Include="Models\AccountModels\UserViewModel.cs" />
     <Compile Include="Models\HelperModels\PagingInfo.cs" />
     <Compile Include="Models\AccountModels\LoginViewModel.cs" />

@@ -7,13 +7,13 @@ using Microsoft.AspNet.Identity;
 
 namespace InternetShop.WebUI.Infrastructure.AccountInfrastructure
 {
-    public class InternetShopUserStore : IUserStore<ApplicationUser>, IUserPasswordStore<ApplicationUser>
+    public class InternetShopUserStore : IUserStore<IdentityUser>, IUserPasswordStore<IdentityUser>
     {
         private readonly IUsersRepository usersRepository;
 
-        public IEnumerable<ApplicationUser> Users
+        public IEnumerable<IdentityUser> Users
         {
-            get { return usersRepository.Users.Select(u => new ApplicationUser(u)); }
+            get { return usersRepository.Users.Select(u => new IdentityUser(u)); }
         }
 
         public InternetShopUserStore(IUsersRepository usersRepository)
@@ -26,58 +26,58 @@ namespace InternetShop.WebUI.Infrastructure.AccountInfrastructure
             usersRepository.Dispose();
         }
 
-        public async Task CreateAsync(ApplicationUser user)
+        public async Task CreateAsync(IdentityUser user)
         {
             var entityUser = user.ToUserEntity();
             await usersRepository.CreateUser(entityUser);
         }
 
-        public async Task UpdateAsync(ApplicationUser user)
+        public async Task UpdateAsync(IdentityUser user)
         {
             var entityUser = user.ToUserEntity();
             await usersRepository.UpdateUser(entityUser);
         }
 
-        public async Task DeleteAsync(ApplicationUser user)
+        public async Task DeleteAsync(IdentityUser user)
         {
             var entityUser = user.ToUserEntity();
             await usersRepository.DeleteUser(entityUser);
         }
 
-        public Task<ApplicationUser> FindByIdAsync(string userId)
+        public Task<IdentityUser> FindByIdAsync(string userId)
         {
             return Task.Run(() =>
             {
                 var entityUser = usersRepository.Users.FirstOrDefault(u => u.UserId == userId);
                 if (entityUser == null)
                     return null;
-                return new ApplicationUser(entityUser);
+                return new IdentityUser(entityUser);
             });
         }
 
-        public Task<ApplicationUser> FindByNameAsync(string userName)
+        public Task<IdentityUser> FindByNameAsync(string userName)
         {
             return Task.Run(() =>
             {
                 var entityUser = usersRepository.Users.FirstOrDefault(u => u.Email == userName);
                 if (entityUser == null)
                     return null;
-                return new ApplicationUser(entityUser);
+                return new IdentityUser(entityUser);
             });
         }
 
-        public Task SetPasswordHashAsync(ApplicationUser user, string passwordHash)
+        public Task SetPasswordHashAsync(IdentityUser user, string passwordHash)
         {
             user.PasswordHash = passwordHash;
             return Task.FromResult(0);
         }
 
-        public Task<string> GetPasswordHashAsync(ApplicationUser user)
+        public Task<string> GetPasswordHashAsync(IdentityUser user)
         {
             return Task.FromResult(user.PasswordHash);
         }
 
-        public Task<bool> HasPasswordAsync(ApplicationUser user)
+        public Task<bool> HasPasswordAsync(IdentityUser user)
         {
             return Task.FromResult(string.IsNullOrEmpty(user.PasswordHash));
         }

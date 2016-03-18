@@ -14,7 +14,8 @@ namespace InternetShop.WebUI.Tests
     public class AdminControllerTester
     {
         private AdminController controller;
-        private Mock<IProductsRepository> mock;
+        private Mock<IProductsRepository> productMock;
+        private Mock<IUsersRepository> userMock;
         private IEnumerable<Product> testData;
         private Audio audioTestProduct;
 
@@ -32,9 +33,10 @@ namespace InternetShop.WebUI.Tests
                 Perfomer = "byTimo"
             };
             testData = Enumerable.Repeat(new Audio(), 20);
-            mock = new Mock<IProductsRepository>();
-            mock.Setup(m => m.Products).Returns(testData);
-            controller = new AdminController(mock.Object);
+            productMock = new Mock<IProductsRepository>();
+            productMock.Setup(m => m.Products).Returns(testData);
+            userMock = new Mock<IUsersRepository>();
+            controller = new AdminController(productMock.Object, userMock.Object);
         }
 
         [Test]
@@ -53,7 +55,7 @@ namespace InternetShop.WebUI.Tests
             var productViewModel = new ProductViewModel(audioTestProduct);
             var resutl = controller.EditProduct(productViewModel);
 
-            mock.Verify(m => m.SaveProduct(productViewModel.ToProduct()));
+            productMock.Verify(m => m.SaveProduct(productViewModel.ToProduct()));
             Assert.IsInstanceOf<RedirectToRouteResult>(resutl);
         }
 
@@ -66,7 +68,7 @@ namespace InternetShop.WebUI.Tests
 
             var result = controller.EditProduct(ProductViewModel.Create(testProduct));
 
-            mock.Verify(m => m.SaveProduct(testProduct));
+            productMock.Verify(m => m.SaveProduct(testProduct));
             Assert.IsInstanceOf<RedirectToRouteResult>(result);
         }
 
@@ -88,7 +90,7 @@ namespace InternetShop.WebUI.Tests
 
             var result = controller.DeleteProduct(prodcut.ProductId);
 
-            mock.Verify(m => m.DeleteProduct(prodcut));
+            productMock.Verify(m => m.DeleteProduct(prodcut));
         }
     }
 }

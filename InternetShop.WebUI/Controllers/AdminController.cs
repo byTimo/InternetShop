@@ -7,6 +7,7 @@ using InternetShop.DataLayer.Abstract;
 using InternetShop.WebUI.Infrastructure.AccountInfrastructure;
 using InternetShop.WebUI.Models.AccountModels;
 using InternetShop.WebUI.Models.ProductModels;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
 namespace InternetShop.WebUI.Controllers
@@ -14,19 +15,23 @@ namespace InternetShop.WebUI.Controllers
     [Authorize]
     public class AdminController : Controller
     {
-        private  readonly IProductsRepository repository;
-        private InternetShopUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<InternetShopUserManager>();
+        private  readonly IProductsRepository productRepository;
+        private readonly IUsersRepository userRepository;
 
-        public AdminController(IProductsRepository repository)
+        private InternetShopUserManager UserManager
+            => HttpContext.GetOwinContext().GetUserManager<InternetShopUserManager>();
+
+        public AdminController(IProductsRepository productRepository, IUsersRepository usersRepository)
         {
-            this.repository = repository;
+            this.productRepository = productRepository;
+            this.userRepository = usersRepository;
         }
 
         public ViewResult ProductList()
         {
             var allProducts = new ProductListViewModel
             {
-                Products = repository.Products.Select(ProductViewModel.Create)
+                Products = productRepository.Products.Select(ProductViewModel.Create)
             };
             return View(allProducts);
         }
@@ -41,7 +46,7 @@ namespace InternetShop.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                repository.SaveProduct(productViewModel.ToProduct());
+                productRepository.SaveProduct(productViewModel.ToProduct());
                 TempData["message"] = $"Добавлен новый товар: {productViewModel.Name}";
                 return RedirectToAction("ProductList");
             }
@@ -52,7 +57,7 @@ namespace InternetShop.WebUI.Controllers
         public ViewResult EditProduct(int productId)
         {
             ViewBag.Title = "Админ панель : изменение товара";
-            var product = repository.Products.First(p => p.ProductId == productId);
+            var product = productRepository.Products.First(p => p.ProductId == productId);
             var productViewModel = ProductViewModel.Create(product);
             return View(productViewModel);
         }
@@ -63,7 +68,7 @@ namespace InternetShop.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 var product = productViewModel.ToProduct();
-                repository.SaveProduct(product);
+                productRepository.SaveProduct(product);
                 TempData["message"] = $"Изменения товара {product.Name} были сохранены!";
                 return RedirectToAction("ProductList");
             }
@@ -74,15 +79,15 @@ namespace InternetShop.WebUI.Controllers
         [HttpPost]
         public ActionResult DeleteProduct(int productId)
         {
-            var product = repository.Products.First(p => p.ProductId == productId);
-            repository.DeleteProduct(product);
+            var product = productRepository.Products.First(p => p.ProductId == productId);
+            productRepository.DeleteProduct(product);
             TempData["message"] = $"Товар {product.Name} успешно удалён!";
             return RedirectToAction("ProductList");
         }
 
         public ActionResult UserList()
         {
-            var users = UserManager.Users.Select(UserViewModel.Create);
+            var users = userRepository.Users.Select(UserViewModel.Create);
             return View(users);
         }
 
@@ -96,7 +101,7 @@ namespace InternetShop.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var appUser = model.ToApplicationUser();
+                var appUser = model.ToIdentityUser();
                 var result = await UserManager.CreateAsync(appUser, model.Password);
                 if (result.Succeeded)
                 {
@@ -119,8 +124,9 @@ namespace InternetShop.WebUI.Controllers
 
         public ActionResult EditUser(string userId)
         {
-            var appUser = UserManager.FindByIdAsync(userId).Result;
-            return View(UserViewModel.Create(appUser));
+            var user = userRepository.Users.First(u => u.UserId.Equals(userId));
+            var userModel = UserViewModel.Create(user);
+            return View(userModel);
         }
 
         [HttpPost]
@@ -128,8 +134,7 @@ namespace InternetShop.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var changingUser = await UserManager.FindByIdAsync(model.UserId);
-                changingUser = model.ToApplicationUser(changingUser);
+                var changingUser = model.ToIdentityUser();
                 var result = await UserManager.UpdateAsync(changingUser);
                 if (result.Succeeded)
                 {
@@ -144,7 +149,7 @@ namespace InternetShop.WebUI.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            repository.Dispose();
+            productRepository.Dispose();
             base.Dispose(disposing);
         }
     }

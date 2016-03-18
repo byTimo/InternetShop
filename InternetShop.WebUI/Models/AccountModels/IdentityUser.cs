@@ -4,29 +4,37 @@ using Microsoft.AspNet.Identity;
 
 namespace InternetShop.WebUI.Models.AccountModels
 {
-    public class ApplicationUser : IUser
+    public class IdentityUser : IUser
     {
         public string Id { get; }
+
         public string UserName { get; set; }
-        public string Surname { get; set; }
+
         public string PasswordHash { get; set; }
-        public string Address { get; set; }
+
         public string Name { get; set; }
 
-        public ApplicationUser(string email)
+        public string Surname { get; set; }
+
+        public string Address { get; set; }
+
+        public string Password { get; set; }
+
+
+        public IdentityUser(string email)
         {
             Id = Guid.NewGuid().ToString();
             UserName = email;
         }
 
-        public ApplicationUser(User user)
+        public IdentityUser(User user)
         {
-            Id = user.UserId;
+            Id = user.UserId ?? Guid.NewGuid().ToString();
             UserName = user.Email;
-            Surname = user.Surname;
             PasswordHash = user.PasswordHash;
-            Address = user.Address;
             Name = user.Name;
+            Surname = user.Surname;
+            Address = user.Address;
         }
 
         public User ToUserEntity()
