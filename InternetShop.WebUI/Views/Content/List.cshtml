@@ -9,31 +9,18 @@
 
 @section sidemenu
 {
-
     <ul class="nav nav-pills nav-stacked">
         <li class="active" role="presentation">
             <a href="@Url.Action("Cart")">
                 <span class="glyphicon glyphicon-shopping-cart"></span>
-                &nbsp;Корзина 
+                &nbsp;Корзина
                 <span class="badge">@ViewBag.ProductInCartCount</span>
             </a>
         </li>
-        @if (ViewBag.IsAuthenticated)
-        {
-            <li role="presentation">
-                <a href="@Url.Action("Logout", "Account")">
-                    <span class="glyphicon glyphicon-log-out"></span>
-                    &nbsp;Выход
-                </a>
-            </li>
-            <li role="presentation">
-                <a href="@Url.Action("ProductList", "Admin")">
-                    <span class="glyphicon glyphicon-cog"></span>
-                    &nbsp;Управление
-                </a>
-            </li>
-        }
-        else
+        <li>
+            <hr/>
+        </li>
+        @if (!ViewBag.IsAuthenticated)
         {
             <li role="presentation">
                 <a href="@Url.Action("Login", "Account")">
@@ -45,6 +32,29 @@
                 <a href="@Url.Action("Register", "Account")">
                     <span class="glyphicon glyphicon-list-alt"></span>
                     &nbsp;Регистрация
+                </a>
+            </li>
+        }
+        else
+        {
+            <li role="presentation">
+                <a href="@Url.Action("UserInfo", "Order", new {userId = ViewBag.UserId})">
+                    @ViewBag.UserName
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="@Url.Action("Logout", "Account")">
+                    <span class="glyphicon glyphicon-log-out"></span>
+                    &nbsp;Выход
+                </a>
+            </li>
+            <li>
+                <hr/>
+            </li>
+            <li role="presentation">
+                <a href="@Url.Action("ProductList", "Admin")">
+                    <span class="glyphicon glyphicon-cog"></span>
+                    &nbsp;Управление
                 </a>
             </li>
         }

@@ -49,6 +49,11 @@ namespace InternetShop.DataLayer
             await context.SaveChangesAsync();
         }
 
+        public Task<User> GetUserByIdWithOrders(string userId)
+        {
+            return context.Users.Include(u => u.Orders).FirstAsync(u => u.UserId.Equals(userId)); 
+        }
+
         public void Dispose()
         {
             context.Dispose();

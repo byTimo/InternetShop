@@ -4,6 +4,7 @@ using InternetShop.DataLayer;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.WebUI.Models;
 using InternetShop.WebUI.Models.ProductModels;
+using Microsoft.AspNet.Identity;
 
 namespace InternetShop.WebUI.Controllers
 {
@@ -30,6 +31,8 @@ namespace InternetShop.WebUI.Controllers
             };
             ViewBag.ProductInCartCount = cart.ProductsInCart.Count;
             ViewBag.IsAuthenticated = User.Identity.IsAuthenticated;
+            ViewBag.UserId = User.Identity.GetUserId();
+            ViewBag.UserName = User.Identity.Name;
             return View(model);
         }
 
