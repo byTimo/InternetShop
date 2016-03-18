@@ -49,7 +49,7 @@ namespace InternetShop.DataLayer
 
         public Task<User> GetUserByIdWithOrders(string userId)
         {
-            return InternetShopContext.Instance.Users.Include(u => u.UserId).FirstAsync(u => u.UserId.Equals(userId)); 
+            return InternetShopContext.Instance.Users.Include(u => u.Orders).FirstAsync(u => u.UserId.Equals(userId)); 
         }
 
         public void Dispose()

@@ -5,20 +5,24 @@ using InternetShop.DataLayer;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.DataLayer.Entities;
 using InternetShop.WebUI.Models.UserInfoModels;
+using Microsoft.AspNet.Identity;
 
 namespace InternetShop.WebUI.Controllers
 {
     public class OrderController : Controller
     {
-        private IOrderesRepository orderesRepository;
+        private readonly IOrderesRepository orderesRepository;
+        private readonly IUsersRepository usersRepository;
 
-        public OrderController(IOrderesRepository orderesRepository)
+        public OrderController(IOrderesRepository orderesRepository, IUsersRepository usersRepository)
         {
             this.orderesRepository = orderesRepository;
+            this.usersRepository = usersRepository;
         }
 
-        public ActionResult UserInfo(User user)
+        public async Task<ActionResult> UserInfo()
         {
+            var user = await usersRepository.GetUserByIdWithOrders(User.Identity.GetUserId());
             var userInfoModel = UserInfoModel.Create(user);
             return View(userInfoModel);
         }
@@ -31,6 +35,7 @@ namespace InternetShop.WebUI.Controllers
                 throw new NotImplementedException();
 
             await Task.Run(() => orderesRepository.CreateOrder(user, cart.ProductsInCart));
+            cart.Clear();
             return RedirectToAction("UserInfo");
         }
     }
