@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.DataLayer.Entities;
 using Microsoft.AspNet.Identity;
@@ -16,7 +15,7 @@ namespace InternetShop.WebUI.Infrastructure.Binders
             if (controllerContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 var currentUserId = controllerContext.HttpContext.User.Identity.GetUserId();
-                user = repository.GetUserByIdWithOrders(currentUserId).Result;
+                user = repository.GetUserById(currentUserId).Result;
             }
             return user;
         }

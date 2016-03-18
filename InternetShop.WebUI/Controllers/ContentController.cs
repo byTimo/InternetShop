@@ -60,7 +60,7 @@ namespace InternetShop.WebUI.Controllers
         public ActionResult ClearCart(Cart cart)
         {
             cart.Clear();
-            TempData["Message"] = "Корзина отчищена";
+            TempData["Message"] = "Корзина очищена";
             return RedirectToAction("Cart");
         }
 

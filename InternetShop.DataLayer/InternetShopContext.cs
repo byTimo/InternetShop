@@ -5,6 +5,8 @@ namespace InternetShop.DataLayer
 {
     public class InternetShopContext : DbContext
     {
+        internal static InternetShopContext Instance { get; } = new InternetShopContext();
+
         public InternetShopContext()
             : base("InternetShop")
         {

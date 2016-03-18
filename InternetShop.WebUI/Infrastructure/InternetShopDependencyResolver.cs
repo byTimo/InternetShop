@@ -31,6 +31,7 @@ namespace InternetShop.WebUI.Infrastructure
         {
             kernel.Bind<IProductsRepository>().To<ProductsRepository>();
             kernel.Bind<IUsersRepository>().To<UsersRepository>();
+            kernel.Bind<IOrderesRepository>().To<OrdersRepository>();
         }
     }
 }

@@ -10,10 +10,25 @@
 {
     <ul class="nav nav-stacked nav-pills">
         <li role="presentation" class="active">
-            <a href="@Url.Action("List")">Вернуться<br /> к списку товаров</a>
+            <a href="@Url.Action("CreateOrder", "Order")">
+                <span class="glyphicon glyphicon-credit-card"></span>
+                &nbsp;Оформить заказ
+            </a>
         </li>
         <li role="presentation">
-            <a href="@Url.Action("ClearCart")">Отчистить<br/> корзину</a>
+            <a href="@Url.Action("List")">
+                <span class="glyphicon glyphicon-new-window"></span>
+                &nbsp;Вернуться к списку <br/> товаров
+            </a>
+        </li>
+        <li>
+            <hr/>
+        </li>
+        <li role="presentation">
+            <a href="@Url.Action("ClearCart")">
+                <span class="glyphicon glyphicon-trash"></span>
+                &nbsp;Очистить корзину
+            </a>
         </li>
     </ul>
 }

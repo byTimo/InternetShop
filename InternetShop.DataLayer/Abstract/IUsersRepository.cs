@@ -16,6 +16,7 @@ namespace InternetShop.DataLayer.Abstract
         Task CreateRole(Role role);
         Task DeleteRole(Role role);
 
+        Task<User> GetUserById(string userId);
         Task<User> GetUserByIdWithOrders(string userId);
     }
 }

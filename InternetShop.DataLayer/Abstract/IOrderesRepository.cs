@@ -8,5 +8,7 @@ namespace InternetShop.DataLayer.Abstract
     {
         IEnumerable<Order> Orders { get; }
         IEnumerable<Product> Products { get; }
+
+        void CreateOrder(User user, IEnumerable<Tuple<Product, int>> products);
     }
 }

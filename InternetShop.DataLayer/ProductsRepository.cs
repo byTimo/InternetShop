@@ -13,7 +13,7 @@ namespace InternetShop.DataLayer
 
         public ProductsRepository()
         {
-            context = new InternetShopContext();
+            context = InternetShopContext.Instance;
         }
 
         public IEnumerable<Audio> Audios => context.Audios;
@@ -38,7 +38,6 @@ namespace InternetShop.DataLayer
 
         public void Dispose()
         {
-            context.Dispose();
         }
     }
 }

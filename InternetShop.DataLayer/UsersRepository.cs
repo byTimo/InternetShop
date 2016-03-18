@@ -9,54 +9,51 @@ namespace InternetShop.DataLayer
 {
     public class UsersRepository : IUsersRepository
     {
-        private readonly InternetShopContext context;
-
-        public UsersRepository()
-        {
-            context = new InternetShopContext();
-        }
-
-        public IEnumerable<User> Users => context.Users;
-        public IEnumerable<Role> Roles => context.Roles;
+        public IEnumerable<User> Users => InternetShopContext.Instance.Users;
+        public IEnumerable<Role> Roles => InternetShopContext.Instance.Roles;
 
         public async Task CreateUser(User user)
         {
-            context.Entry(user).State = EntityState.Added;
-            await context.SaveChangesAsync();
+            InternetShopContext.Instance.Entry(user).State = EntityState.Added;
+            await InternetShopContext.Instance.SaveChangesAsync();
         }
 
         public async Task DeleteUser(User user)
         {
-            context.Entry(user).State = EntityState.Deleted;
-            await context.SaveChangesAsync();
+            InternetShopContext.Instance.Entry(user).State = EntityState.Deleted;
+            await InternetShopContext.Instance.SaveChangesAsync();
         }
 
         public async Task UpdateUser(User user)
         {
-            context.Users.AddOrUpdate(user);
-            await context.SaveChangesAsync();
+            InternetShopContext.Instance.Users.AddOrUpdate(user);
+            await InternetShopContext.Instance.SaveChangesAsync();
         }
 
         public async Task CreateRole(Role role)
         {
-            context.Entry(role).State = EntityState.Added;
-            await context.SaveChangesAsync();
+            InternetShopContext.Instance.Entry(role).State = EntityState.Added;
+            await InternetShopContext.Instance.SaveChangesAsync();
         }
 
         public async Task DeleteRole(Role role)
         {
-            context.Entry(role).State = EntityState.Added;
-            await context.SaveChangesAsync();
+            InternetShopContext.Instance.Entry(role).State = EntityState.Added;
+            await InternetShopContext.Instance.SaveChangesAsync();
+        }
+
+        public Task<User> GetUserById(string userId)
+        {
+            return InternetShopContext.Instance.Users.FindAsync(userId);
         }
 
         public Task<User> GetUserByIdWithOrders(string userId)
         {
-            return context.Users.Include(u => u.Orders).FirstAsync(u => u.UserId.Equals(userId)); 
+            return InternetShopContext.Instance.Users.Include(u => u.UserId).FirstAsync(u => u.UserId.Equals(userId)); 
         }
 
         public void Dispose()
         {
-            context.Dispose();
         }
     }
 }
