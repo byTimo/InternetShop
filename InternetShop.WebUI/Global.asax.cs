@@ -2,6 +2,7 @@
 using System.Web.Optimization;
 using System.Web.Routing;
 using InternetShop.DataLayer;
+using InternetShop.DataLayer.Entities;
 using InternetShop.WebUI.Infrastructure.Binders;
 
 namespace InternetShop.WebUI
@@ -15,6 +16,7 @@ namespace InternetShop.WebUI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ModelBinders.Binders.Add(typeof(Cart), new CartBinder());
+            ModelBinders.Binders.Add(typeof(User), new CurrentUserBinder());
         }
     }
 }

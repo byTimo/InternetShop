@@ -20,7 +20,7 @@
         <li>
             <hr/>
         </li>
-        @if (!ViewBag.IsAuthenticated)
+        @if (!Model.UserInfo.IsAuthorized)
         {
             <li role="presentation">
                 <a href="@Url.Action("Login", "Account")">
@@ -38,8 +38,9 @@
         else
         {
             <li role="presentation">
-                <a href="@Url.Action("UserInfo", "Order", new {userId = ViewBag.UserId})">
-                    @ViewBag.UserName
+                <a href="@Url.Action("UserInfo", "Order", new {userId = Model.UserInfo.UserId})">
+                    <span class="glyphicon glyphicon-user"></span>
+                    &nbsp;@Model.UserInfo.Name
                 </a>
             </li>
             <li role="presentation">

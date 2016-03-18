@@ -36,7 +36,7 @@ namespace InternetShop.WebUI.Tests
         public void ListFirstPageTest()
         {
 
-            var pageModel = (ProductListViewModel) controller.List(cart).Model;
+            var pageModel = (ProductListViewModel) controller.List(cart, null).Model;
 
             Assert.That(pageModel.Products.Count(), Is.EqualTo(controller.PageSize));
             CollectionAssert.AreEqual(testData.Take(controller.PageSize), pageModel.Products.Select(p => p.ToProduct()));
@@ -46,7 +46,7 @@ namespace InternetShop.WebUI.Tests
         [Test]
         public void ListSecondPageTest()
         {
-            var pageModel = (ProductListViewModel) controller.List(cart, 2).Model;
+            var pageModel = (ProductListViewModel) controller.List(cart, null, 2).Model;
 
             Assert.That(pageModel.Products.Count(), Is.EqualTo(5));
             CollectionAssert.AreEqual(testData.Skip(controller.PageSize).ToList(), pageModel.Products.Select(p => p.ToProduct()));

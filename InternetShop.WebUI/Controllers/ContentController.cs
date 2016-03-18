@@ -2,9 +2,9 @@
 using System.Web.Mvc;
 using InternetShop.DataLayer;
 using InternetShop.DataLayer.Abstract;
+using InternetShop.DataLayer.Entities;
 using InternetShop.WebUI.Models;
 using InternetShop.WebUI.Models.ProductModels;
-using Microsoft.AspNet.Identity;
 
 namespace InternetShop.WebUI.Controllers
 {
@@ -19,7 +19,7 @@ namespace InternetShop.WebUI.Controllers
             this.productsRepository = productsRepository;
         }
 
-        public ViewResult List(Cart cart, int page = 1)
+        public ViewResult List(Cart cart, User user, int page = 1)
         {
             var model = new ProductListViewModel
             {
@@ -27,12 +27,10 @@ namespace InternetShop.WebUI.Controllers
                     .Skip((page - 1)*PageSize)
                     .Take(PageSize)
                     .Select(ProductViewModel.Create),
-                PagingInfo = new PagingInfo(page, PageSize, productsRepository.Products.Count())
+                PagingInfo = new PagingInfo(page, PageSize, productsRepository.Products.Count()),
+                UserInfo = UserInfo.Create(user)
             };
             ViewBag.ProductInCartCount = cart.ProductsInCart.Count;
-            ViewBag.IsAuthenticated = User.Identity.IsAuthenticated;
-            ViewBag.UserId = User.Identity.GetUserId();
-            ViewBag.UserName = User.Identity.Name;
             return View(model);
         }
 
