@@ -10,7 +10,7 @@ namespace InternetShop.WebUI.Controllers
 {
     public class ContentController : Controller
     {
-        public int PageSize { get; set; } = 9;
+        public int PageSize { get; set; } = 15;
 
         private readonly IProductsRepository productsRepository;
 

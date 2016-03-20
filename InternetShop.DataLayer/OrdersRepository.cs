@@ -18,7 +18,6 @@ namespace InternetShop.DataLayer
         }
 
         public IEnumerable<Order> Orders => context.Orders;
-        public IEnumerable<Product> Products => null;
 
         public void CreateOrder(User user, IEnumerable<Tuple<Product, int>> products)
         {

@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
@@ -55,6 +55,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $(".alert").delay(5000).fadeOut();
+        $('[data-toggle="tooltip"]').tooltip();
     });
 </script>
 </body>

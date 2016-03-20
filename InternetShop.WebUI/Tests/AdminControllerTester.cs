@@ -36,7 +36,7 @@ namespace InternetShop.WebUI.Tests
             productMock = new Mock<IProductsRepository>();
             productMock.Setup(m => m.Products).Returns(testData);
             userMock = new Mock<IUsersRepository>();
-            controller = new AdminController(productMock.Object, userMock.Object);
+            controller = new AdminController(productMock.Object, userMock.Object, null);
         }
 
         [Test]

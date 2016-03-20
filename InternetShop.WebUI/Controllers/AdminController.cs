@@ -6,8 +6,8 @@ using System.Web.Mvc;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.WebUI.Infrastructure.AccountInfrastructure;
 using InternetShop.WebUI.Models.AccountModels;
+using InternetShop.WebUI.Models.OrderModels;
 using InternetShop.WebUI.Models.ProductModels;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
 namespace InternetShop.WebUI.Controllers
@@ -15,16 +15,18 @@ namespace InternetShop.WebUI.Controllers
     [Authorize]
     public class AdminController : Controller
     {
-        private  readonly IProductsRepository productRepository;
-        private readonly IUsersRepository userRepository;
+        private readonly IProductsRepository productRepository;
+        private readonly IUsersRepository usersRepository;
+        private readonly IOrderesRepository orderesRepository;
 
         private InternetShopUserManager UserManager
             => HttpContext.GetOwinContext().GetUserManager<InternetShopUserManager>();
 
-        public AdminController(IProductsRepository productRepository, IUsersRepository usersRepository)
+        public AdminController(IProductsRepository productRepository, IUsersRepository usersRepository, IOrderesRepository orderesRepository)
         {
             this.productRepository = productRepository;
-            this.userRepository = usersRepository;
+            this.usersRepository = usersRepository;
+            this.orderesRepository = orderesRepository;
         }
 
         public ViewResult ProductList()
@@ -87,7 +89,7 @@ namespace InternetShop.WebUI.Controllers
 
         public ActionResult UserList()
         {
-            var users = userRepository.Users.Select(UserViewModel.Create);
+            var users = usersRepository.Users.Select(UserViewModel.Create);
             return View(users);
         }
 
@@ -124,7 +126,7 @@ namespace InternetShop.WebUI.Controllers
 
         public ActionResult EditUser(string userId)
         {
-            var user = userRepository.Users.First(u => u.UserId.Equals(userId));
+            var user = usersRepository.Users.First(u => u.UserId.Equals(userId));
             var userModel = UserViewModel.Create(user);
             return View(userModel);
         }
@@ -145,6 +147,12 @@ namespace InternetShop.WebUI.Controllers
             }
             TempData["error-message"] = "Возникли ошибки при изменении пользователя!";
             return View(model);
+        }
+
+        public ActionResult OrderList()
+        {
+            var orders = orderesRepository.Orders.Select(OrderInfoModel.Create);
+            return View(orders);
         }
 
         protected override void Dispose(bool disposing)

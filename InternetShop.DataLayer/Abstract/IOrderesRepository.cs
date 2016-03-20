@@ -8,7 +8,6 @@ namespace InternetShop.DataLayer.Abstract
     public interface IOrderesRepository : IDisposable
     {
         IEnumerable<Order> Orders { get; }
-        IEnumerable<Product> Products { get; }
 
         void CreateOrder(User user, IEnumerable<Tuple<Product, int>> products);
         Task<Order> GetOrderIncludeAllbyId(int orderId);

@@ -30,6 +30,12 @@
                     &nbsp;Пользователи
                 </a>
             </li>
+            <li role="presentation">
+                <a href="@Url.Action("OrderList")">
+                    <span class="glyphicon glyphicon-transfer"></span>
+                    &nbsp;Заказы
+                </a>
+            </li>
         </ul>
 
     </div>
@@ -53,8 +59,8 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td clas="text-center">@item.Email</td>
-                    <td>
+                    <td class="text-center">@item.Email</td>
+                    <td class="text-center">
                         <a href="@Url.Action("EditUser", new { userId = @item.UserId })">@(item.Surname ?? "[нет фамилии]") @item.Name</a>
                     </td>
                     <td class="text-center">@(item.Address ?? "[нет адреса]")</td>
