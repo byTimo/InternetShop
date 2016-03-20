@@ -20,7 +20,7 @@
         <li>
             <hr/>
         </li>
-        @if (!Model.UserInfo.IsAuthorized)
+        @if (!Model.IdentityUserInfo.IsAuthorized)
         {
             <li role="presentation">
                 <a href="@Url.Action("Login", "Account")">
@@ -38,9 +38,9 @@
         else
         {
             <li role="presentation">
-                <a href="@Url.Action("UserInfo", "Order", new {userId = Model.UserInfo.UserId})">
+                <a href="@Url.Action("UserInfo", "Order", new {userId = Model.IdentityUserInfo.UserId})">
                     <span class="glyphicon glyphicon-user"></span>
-                    &nbsp;@Model.UserInfo.Name
+                    &nbsp;@Model.IdentityUserInfo.Name
                 </a>
             </li>
             <li role="presentation">

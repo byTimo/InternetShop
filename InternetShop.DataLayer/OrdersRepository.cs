@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.DataLayer.Entities;
 
@@ -31,6 +33,14 @@ namespace InternetShop.DataLayer
                 .ToList();
             context.Orders.Add(order);
             context.SaveChanges();
+        }
+
+        public Task<Order> GetOrderIncludeAllbyId(int orderId)
+        {
+            return context.Orders
+                .Include("User")
+                .Include("OrderedProducts")
+                .FirstAsync(o => o.OrderId == orderId);
         }
 
         public void Dispose()

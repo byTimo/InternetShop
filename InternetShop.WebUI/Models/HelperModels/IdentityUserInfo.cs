@@ -2,19 +2,19 @@
 
 namespace InternetShop.WebUI.Models
 {
-    public class UserInfo
+    public class IdentityUserInfo
     {
         public string UserId { get; set; }
         public string Email { get; set; }
         public bool IsAuthorized { get; set; }
         public string Name { get; set; }
 
-        public static UserInfo Create(User user)
+        public static IdentityUserInfo Create(User user)
         {
             if (user == null)
-                return new UserInfo();
+                return new IdentityUserInfo();
             else
-                return new UserInfo
+                return new IdentityUserInfo
                 {
                     UserId = user.UserId,
                     Email = user.Email,

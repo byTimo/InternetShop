@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using InternetShop.DataLayer;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.DataLayer.Entities;
+using InternetShop.WebUI.Models.OrderModels;
 using InternetShop.WebUI.Models.UserInfoModels;
 using Microsoft.AspNet.Identity;
 
@@ -37,6 +38,13 @@ namespace InternetShop.WebUI.Controllers
             await Task.Run(() => orderesRepository.CreateOrder(user, cart.ProductsInCart));
             cart.Clear();
             return RedirectToAction("UserInfo");
+        }
+
+        public async Task<ActionResult> OrderInfo(int orderId)
+        {
+            var order = await orderesRepository.GetOrderIncludeAllbyId(orderId);
+            var orderInfoModel = OrderInfoModel.Create(order);
+            return PartialView(orderInfoModel);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using InternetShop.DataLayer.Entities;
 
 namespace InternetShop.DataLayer.Abstract
@@ -10,5 +11,6 @@ namespace InternetShop.DataLayer.Abstract
         IEnumerable<Product> Products { get; }
 
         void CreateOrder(User user, IEnumerable<Tuple<Product, int>> products);
+        Task<Order> GetOrderIncludeAllbyId(int orderId);
     }
 }

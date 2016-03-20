@@ -6,6 +6,6 @@ namespace InternetShop.WebUI.Models.ProductModels
     {
         public IEnumerable<ProductViewModel> Products { get; set; }
         public PagingInfo PagingInfo { get; set; }
-        public UserInfo UserInfo { get; set; }
+        public IdentityUserInfo IdentityUserInfo { get; set; }
     }
 }

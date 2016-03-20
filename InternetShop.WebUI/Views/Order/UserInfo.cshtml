@@ -80,7 +80,8 @@
                             <td>@order.OrderId</td>
                             <td>@order.Date</td>
                             <td class="text-center">
-                                <a href="#" class="btn-default" data-toggle="tooltip" data-placement="top" title="Информация о заказе">
+                                <a href="#" class="btn-default" data-toggle="tooltip" data-placement="top" title="Информация о заказе" 
+                                   onclick="showInfo('@Url.Action("OrderInfo", new {orderId = order.OrderId})')">
                                     <span class="glyphicon glyphicon-info-sign"></span>
                                 </a>
                             </td>
@@ -94,6 +95,7 @@
 
 @section scripts
 {
+    @Scripts.Render("~/Scripts/modal.js")
     <script type="text/javascript">
         $(function() {
             $('[data-toggle="tooltip"]').tooltip();

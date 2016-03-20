@@ -28,7 +28,7 @@ namespace InternetShop.WebUI.Controllers
                     .Take(PageSize)
                     .Select(ProductViewModel.Create),
                 PagingInfo = new PagingInfo(page, PageSize, productsRepository.Products.Count()),
-                UserInfo = UserInfo.Create(user)
+                IdentityUserInfo = IdentityUserInfo.Create(user)
             };
             ViewBag.ProductInCartCount = cart.ProductsInCart.Count;
             return View(model);
