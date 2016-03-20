@@ -5,6 +5,7 @@ namespace InternetShop.DataLayer.Entities
 {
     public abstract class Product
     {
+        [Key]
         public int ProductId { get; set; }
 
         [Required]
