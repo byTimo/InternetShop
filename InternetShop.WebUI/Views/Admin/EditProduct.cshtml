@@ -11,6 +11,8 @@
     <div class="alert alert-danger">
         <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
         <span class="sr-only"></span>@TempData["error-message"]
+        <hr/>
+        @Html.ValidationSummary()
     </div>
 }
 <div class="panel panel-default">

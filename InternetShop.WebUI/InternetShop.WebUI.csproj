@@ -269,6 +269,7 @@
     <Content Include="Views\Order\UserInfo.cshtml" />
     <Content Include="Views\Order\OrderInfo.cshtml" />
     <Content Include="Views\Admin\OrderList.cshtml" />
+    <Content Include="Views\Order\EditUserInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,9 +4,9 @@ using System.Web.Mvc;
 using InternetShop.DataLayer;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.DataLayer.Entities;
+using InternetShop.WebUI.Models.AccountModels;
 using InternetShop.WebUI.Models.OrderModels;
 using InternetShop.WebUI.Models.UserInfoModels;
-using Microsoft.AspNet.Identity;
 
 namespace InternetShop.WebUI.Controllers
 {
@@ -21,11 +21,30 @@ namespace InternetShop.WebUI.Controllers
             this.usersRepository = usersRepository;
         }
 
-        public async Task<ActionResult> UserInfo()
+        public ActionResult UserInfo(User user)
         {
-            var user = await usersRepository.GetUserByIdWithOrders(User.Identity.GetUserId());
             var userInfoModel = UserInfoModel.Create(user);
             return View(userInfoModel);
+        }
+
+        public ActionResult EditUserInfo(User user)
+        {
+            var userViewModel = UserViewModel.Create(user);
+            return View(userViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditUserInfo(UserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = model.ToUser();
+                await usersRepository.UpdateUser(user);
+                return RedirectToAction("UserInfo");
+            }
+            TempData["error-message"] = "При сохранении возникли ошибки!";
+            return View(model);
         }
 
         public async Task<ActionResult> CreateOrder(Cart cart, User user)

@@ -1,7 +1,7 @@
 ﻿@model InternetShop.WebUI.Models.AccountModels.UserViewModel
 
 @{
-    ViewBag.Title = "Админ панель : Создание товара";
+    ViewBag.Title = "Изменение информации о пользователе";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,7 +9,8 @@
 {
     <div class="alert alert-danger">
         <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-        <span class="sr-only"></span>@TempData["error-message"]
+        <span class="sr-only"></span>
+        &nbsp;@TempData["error-message"]
         <hr />
         @Html.ValidationSummary()
     </div>
@@ -19,20 +20,17 @@
     <div class="panel-heading">
         <h2 class="text-primary">
             <span class="glyphicon glyphicon-edit"></span>
-            &nbsp;Изменение информации о пользователе
+            &nbsp;Изменение пользователя
         </h2>
     </div>
     <div class="panel-body">
         @using (Html.BeginForm())
         {
+            @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.UserId)
             @Html.HiddenFor(m => m.PasswordHash)
+            @Html.HiddenFor(m => m.Email)
             <input name="Password" value="no_password_changing" type="hidden"/>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Email, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Email)
-            </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.Name, new { @class = "control-label" })
                 @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
@@ -47,8 +45,8 @@
                 @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
             </div>
             <div class="panel-footer">
-                <input type="submit" value="Изменить" class="btn btn-primary" />
-                @Html.ActionLink("Отменить", "UserList", null, new { @class = "btn btn-default" })
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+                @Html.ActionLink("Назад", "UserInfo",null, new { @class = "btn btn-default" })
             </div>
         }
     </div>
