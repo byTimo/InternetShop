@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using InternetShop.DataLayer.Entities;
+using InternetShop.DataLayer.Results;
 
 namespace InternetShop.DataLayer.Abstract
 {
     public interface IOrderesRepository : IDisposable
     {
-        IEnumerable<Order> Orders { get; }
+        Task<SelectResult<IEnumerable<Order>>> GetAllOrderAsync();
 
-        void CreateOrder(User user, IEnumerable<Tuple<Product, int>> products);
-        Task<Order> GetOrderIncludeAllbyId(int orderId);
+        Task<SelectResult<Order>> GetOrderById(int orderId);
+
+        Task<CreateResult> CreateOrder(User user, IEnumerable<Tuple<Product, int>> products);
     }
 }

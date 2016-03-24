@@ -1,55 +1,119 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Threading.Tasks;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.DataLayer.Entities;
+using InternetShop.DataLayer.Results;
 
 namespace InternetShop.DataLayer
 {
     public class UsersRepository : IUsersRepository
     {
-        public IEnumerable<User> Users => InternetShopContext.Instance.Users;
-        public IEnumerable<Role> Roles => InternetShopContext.Instance.Roles;
-
-        public async Task CreateUser(User user)
+        public Task<SelectResult<IEnumerable<User>>> GetAllUsers()
         {
-            InternetShopContext.Instance.Entry(user).State = EntityState.Added;
-            await InternetShopContext.Instance.SaveChangesAsync();
+            var result = new SelectResult<IEnumerable<User>>();
+            try
+            {
+                result.Result = InternetShopContext.Instance.Users;
+            }
+            catch (Exception e)
+            {
+                result.AddError(e.Message);
+            }
+            return Task.FromResult(result);
         }
 
-        public async Task DeleteUser(User user)
+        public async Task<SelectResult<User>> GetUserById(string userId)
         {
-            InternetShopContext.Instance.Entry(user).State = EntityState.Deleted;
-            await InternetShopContext.Instance.SaveChangesAsync();
+            var result = new SelectResult<User>();
+            try
+            {
+                result.Result = await InternetShopContext.Instance.Users.FindAsync(userId);
+                if(result.Result == null)
+                    result.AddError("Нет пользователя с таким идентификатором.");
+                
+            }
+            catch (Exception e)
+            {
+                result.AddError(e.Message);
+            }
+            return result;
         }
 
-        public async Task UpdateUser(User user)
+        public async Task<SelectResult<User>> GetUserByIdWithOrders(string userId)
         {
-            InternetShopContext.Instance.Users.AddOrUpdate(user);
-            await InternetShopContext.Instance.SaveChangesAsync();
+            var result = new SelectResult<User>();
+            try
+            {
+                result.Result = await InternetShopContext.Instance.Users.Include(u => u.Orders)
+                    .FirstAsync(u => u.UserId.Equals(userId));
+                if (result.Result == null)
+                    result.AddError("Нет пользователя с таким идентификатором.");
+            }
+            catch (Exception e)
+            {
+                result.AddError(e.Message);
+            }
+            return result;
         }
 
-        public async Task CreateRole(Role role)
+        public async Task<CreateResult> CreateUser(User user)
         {
-            InternetShopContext.Instance.Entry(role).State = EntityState.Added;
-            await InternetShopContext.Instance.SaveChangesAsync();
+            var result = new CreateResult();
+            try
+            {
+                InternetShopContext.Instance.Entry(user).State = EntityState.Added;
+                await InternetShopContext.Instance.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                result.AddError(e.Message);
+            }
+            return result;
         }
 
-        public async Task DeleteRole(Role role)
+        public async Task<UpdateResult> UpdateUser(User user)
         {
-            InternetShopContext.Instance.Entry(role).State = EntityState.Added;
-            await InternetShopContext.Instance.SaveChangesAsync();
+            var result = new UpdateResult();
+            try
+            {
+                InternetShopContext.Instance.Users.AddOrUpdate(user);
+                await InternetShopContext.Instance.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                result.AddError(e.Message);
+            }
+            return result;
         }
 
-        public Task<User> GetUserById(string userId)
+        public async Task<DeleteResult> DeleteUser(string userId)
         {
-            return InternetShopContext.Instance.Users.FindAsync(userId);
-        }
-
-        public Task<User> GetUserByIdWithOrders(string userId)
-        {
-            return InternetShopContext.Instance.Users.Include(u => u.Orders).FirstAsync(u => u.UserId.Equals(userId)); 
+            var result = new DeleteResult();
+            try
+            {
+                var dbResult = await GetUserById(userId);
+                if (dbResult.IsSucceeded)
+                {
+                    InternetShopContext.Instance.Entry(dbResult.Result).State =
+                        EntityState.Deleted;
+                    await InternetShopContext.Instance.SaveChangesAsync();
+                }
+                else
+                {
+                    foreach (var error in dbResult.Errors)
+                    {
+                        result.AddError(error);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                result.AddError(e.Message);
+            }
+            return result;
         }
 
         public void Dispose()

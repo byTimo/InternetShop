@@ -50,20 +50,35 @@ namespace InternetShop.WebUI.Controllers
         public async Task<ActionResult> CreateOrder(Cart cart, User user)
         {
             if (cart.ProductsInCart.Count == 0)
+            {
                 return RedirectToAction("Cart", "Content");
+            }
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             if(string.IsNullOrEmpty(user.Surname) || string.IsNullOrEmpty(user.Address))
+            {
                 throw new NotImplementedException();
-
-            await Task.Run(() => orderesRepository.CreateOrder(user, cart.ProductsInCart));
-            cart.Clear();
-            return RedirectToAction("UserInfo");
+            }
+            var dbResult = await orderesRepository.CreateOrder(user, cart.ProductsInCart);
+            if (dbResult.IsSucceeded)
+            {
+                cart.Clear();
+                return RedirectToAction("UserInfo");
+            }
+            return null;
         }
 
         public async Task<ActionResult> OrderInfo(int orderId)
         {
-            var order = await orderesRepository.GetOrderIncludeAllbyId(orderId);
-            var orderInfoModel = OrderInfoModel.Create(order);
-            return PartialView(orderInfoModel);
+            var dbResult = await orderesRepository.GetOrderById(orderId);
+            if (dbResult.IsSucceeded)
+            {
+                var orderInfoModel = OrderInfoModel.Create(dbResult.Result);
+                return PartialView(orderInfoModel);
+            }
+            return null;
         }
     }
 }

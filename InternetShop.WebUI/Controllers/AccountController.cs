@@ -3,6 +3,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using InternetShop.DataLayer.Abstract;
+using InternetShop.DataLayer.Results;
 using InternetShop.WebUI.Infrastructure.AccountInfrastructure;
 using InternetShop.WebUI.Models.AccountModels;
 using Microsoft.AspNet.Identity;
@@ -15,6 +17,12 @@ namespace InternetShop.WebUI.Controllers
     {
         private InternetShopUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<InternetShopUserManager>();
         private IAuthenticationManager AuthManager => HttpContext.GetOwinContext().Authentication;
+        private IUsersRepository usersRepository;
+
+        public AccountController(IUsersRepository usersRepository)
+        {
+            this.usersRepository = usersRepository;
+        }
 
         public ActionResult Register()
         {
@@ -28,7 +36,7 @@ namespace InternetShop.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 var result = await TryRegisterUserFromModel(model);
-                if (result.Succeeded)
+                if (result.IsSucceeded)
                 {
                     return RedirectToAction("List", "Content");
                 }
@@ -37,10 +45,11 @@ namespace InternetShop.WebUI.Controllers
             return View(model);
         }
 
-        private Task<IdentityResult> TryRegisterUserFromModel(RegisterViewModel model)
+        private Task<CreateResult> TryRegisterUserFromModel(RegisterViewModel model)
         {
-            var newUser = new IdentityUser(model.Email) { Name = model.Name };
-            return UserManager.CreateAsync(newUser, model.Password);
+            var newUser = new IdentityUser(model.Email) {Name = model.Name}.ToUserEntity();
+            newUser.PasswordHash = UserManager.PasswordHasher.HashPassword(model.Password);
+            return usersRepository.CreateUser(newUser);
         }
 
         private void AddAllErrorInModelState(IEnumerable<string> errors)

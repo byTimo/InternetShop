@@ -5,21 +5,42 @@ using System.Linq;
 using System.Threading.Tasks;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.DataLayer.Entities;
+using InternetShop.DataLayer.Results;
 
 namespace InternetShop.DataLayer
 {
     public class OrdersRepository : IOrderesRepository
     {
-        private InternetShopContext context;
-
-        public OrdersRepository()
+        public Task<SelectResult<IEnumerable<Order>>> GetAllOrderAsync()
         {
-            context = InternetShopContext.Instance;
+            var result = new SelectResult<IEnumerable<Order>>();
+            try
+            {
+                result.Result = InternetShopContext.Instance.Orders;
+            }
+            catch (Exception e)
+            {
+                result.AddError(e.Message);
+            }
+            return Task.FromResult(result);
         }
 
-        public IEnumerable<Order> Orders => context.Orders;
+        public async Task<SelectResult<Order>> GetOrderById(int orderId)
+        {
+            var result = new SelectResult<Order>();
+            try
+            {
+                var dbEntity = await InternetShopContext.Instance.Orders.FindAsync(orderId);
+                result.Result = dbEntity;
+            }
+            catch (Exception e)
+            {
+                result.AddError(e.Message);
+            }
+            return result;
+        }
 
-        public void CreateOrder(User user, IEnumerable<Tuple<Product, int>> products)
+        public async Task<CreateResult> CreateOrder(User user, IEnumerable<Tuple<Product, int>> products)
         {
             var order = new Order
             {
@@ -30,16 +51,35 @@ namespace InternetShop.DataLayer
             order.OrderedProducts = products
                 .Select(t => new OrderedProduct(t.Item1, order, t.Item2))
                 .ToList();
-            context.Orders.Add(order);
-            context.SaveChanges();
+            var result = new CreateResult();
+            try
+            {
+                InternetShopContext.Instance.Orders.Add(order);
+                await InternetShopContext.Instance.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                result.AddError(e.Message);
+            }
+            return result;
         }
 
-        public Task<Order> GetOrderIncludeAllbyId(int orderId)
+        public async Task<SelectResult<Order>> GetOrderIncludeAllbyId(int orderId)
         {
-            return context.Orders
-                .Include("User")
-                .Include("OrderedProducts")
-                .FirstAsync(o => o.OrderId == orderId);
+            var result = new SelectResult<Order>();
+            try
+            {
+                result.Result = await InternetShopContext.Instance
+                    .Orders
+                    .Include("User")
+                    .Include("OrderedProducts")
+                    .FirstAsync(o => o.OrderId == orderId);
+            }
+            catch (Exception e)
+            {
+                result.AddError(e.Message);
+            }
+            return result;
         }
 
         public void Dispose()

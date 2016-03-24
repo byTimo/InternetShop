@@ -26,12 +26,9 @@ namespace InternetShop.DataLayer.Entities
 
         public virtual ICollection<Order> Orders { get; set; }
 
-        public virtual ICollection<Role> Roles { get; set; }
-
         public User()
         {
             Orders = new HashSet<Order>();
-            Roles = new HashSet<Role>();
         }
     }
 }

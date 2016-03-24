@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using InternetShop.DataLayer.Entities;
+using InternetShop.DataLayer.Results;
 
 namespace InternetShop.DataLayer.Abstract
 {
     public interface IProductsRepository : IDisposable
     {
-        IEnumerable<Audio> Audios { get; }
-        IEnumerable<Video> Videos { get; }
-        IEnumerable<Product> Products { get; }
+        Task<SelectResult<Product>> GetProductById(int productId);
 
-        Product SaveProduct(Product product);
-        Product DeleteProduct(Product product);
+        Task<SelectResult<IEnumerable<Product>>> GetAllProductAsync();
+
+        Task<CreateResult> CreateProduct(Product product);
+
+        Task<UpdateResult> UpdateProduct(Product product);
+
+        Task<DeleteResult> DeleteProduct(int productId);
     }
 }

@@ -6,12 +6,8 @@ go
 use InternetShop
 
 -- Acount information tables
-if exists ( select * from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'UsersRoles' )
-  drop table UsersRoles
 if exists ( select * from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'Users' )
   drop table Users
-if exists ( select * from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'Roles' )
-  drop table Roles
 
 create table Users
 (
@@ -23,26 +19,6 @@ create table Users
   Address nvarchar( 256 ) null,
 
   constraint PK_Users primary key clustered ( UserId ASC )
-)
-
-create table Roles
-(
-  RoleId int not null,
-  Name nvarchar( 100 ) not null,
-
-  constraint PK_Roles primary key clustered ( RoleId ASC )
-)
-
-create table UsersRoles
-(
-  UserId nvarchar( 128 ) not null,
-  RoleId int not null,
-
-  constraint PK_UsersRoles primary key clustered ( UserId ASC, RoleId ASC ),
-  constraint FK_Users_UsersRoles foreign key ( UserId )
-    references Users ( UserId ),
-  constraint FK_Roles_UsersRoles foreign key ( RoleId )
-    references Roles ( RoleId )
 )
 go
 

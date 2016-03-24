@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using InternetShop.DataLayer.Entities;
+using InternetShop.DataLayer.Results;
 
 namespace InternetShop.DataLayer.Abstract
 {
     public interface IUsersRepository : IDisposable
     {
-        IEnumerable<User> Users { get; }
-        IEnumerable<Role> Roles { get; }
+        Task<SelectResult<User>> GetUserById(string userId);
 
-        Task CreateUser(User user);
-        Task DeleteUser(User user);
-        Task UpdateUser(User user);
-        Task CreateRole(Role role);
-        Task DeleteRole(Role role);
+        Task<SelectResult<User>> GetUserByIdWithOrders(string userId);
 
-        Task<User> GetUserById(string userId);
-        Task<User> GetUserByIdWithOrders(string userId);
+        Task<SelectResult<IEnumerable<User>>> GetAllUsers();
+
+        Task<CreateResult> CreateUser(User user);
+
+        Task<DeleteResult> DeleteUser(string userId);
+
+        Task<UpdateResult> UpdateUser(User user);
     }
 }

@@ -1,43 +1,116 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Threading.Tasks;
 using InternetShop.DataLayer.Abstract;
 using InternetShop.DataLayer.Entities;
+using InternetShop.DataLayer.Results;
 
 namespace InternetShop.DataLayer
 {
     public class ProductsRepository : IProductsRepository
     {
-        private readonly InternetShopContext context;
-
-        public ProductsRepository()
+        public async Task<SelectResult<Product>> GetProductById(int productId)
         {
-            context = InternetShopContext.Instance;
+            var result = new SelectResult<Product>();
+            try
+            {
+                var getAllResult = await GetAllProductAsync();
+                if (getAllResult.IsSucceeded)
+                {
+                    result.Result = getAllResult.Result.FirstOrDefault(p => p.ProductId == productId);
+                    if (result.Result == null)
+                        result.AddError("Нет продукта с таким идентификатором");
+                }
+                foreach (var error in getAllResult.Errors)
+                {
+                    result.AddError(error);
+                }
+            }
+            catch (Exception e)
+            {
+                result.AddError(e.Message);
+            }
+            return result;
         }
 
-        public IEnumerable<Audio> Audios => context.Audios;
-        public IEnumerable<Video> Videos => context.Videos;
-
-        public IEnumerable<Product> Products => context.Audios.Cast<Product>()
-            .Concat(context.Videos);
-
-        public Product SaveProduct(Product product)
+        public Task<SelectResult<IEnumerable<Product>>> GetAllProductAsync()
         {
-            //context.Entry(product).State = product.ProductId == 0 ? EntityState.Added : EntityState.Modified;
-            if (product is Audio)
-                context.Audios.AddOrUpdate((Audio) product);
-            else
-                context.Videos.AddOrUpdate((Video) product);
-            context.SaveChanges();
-            return product;
+            var result = new SelectResult<IEnumerable<Product>>();
+            try
+            {
+                result.Result = InternetShopContext.Instance.Audios
+                    .Cast<Product>()
+                    .Concat(InternetShopContext.Instance.Videos);
+            }
+            catch (Exception e)
+            {
+                result.AddError(e.Message);
+            }
+            return Task.FromResult(result);
         }
 
-        public Product DeleteProduct(Product product)
+        public async Task<CreateResult> CreateProduct(Product product)
         {
-            context.Entry(product).State = EntityState.Deleted;
-            context.SaveChanges();
-            return product;
+            var result = new CreateResult();
+            try
+            {
+                InternetShopContext.Instance.Entry(product).State =
+                    EntityState.Added;
+                await InternetShopContext.Instance.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                result.AddError(e.Message);
+            }
+            return result;
+        }
+
+        public async Task<UpdateResult> UpdateProduct(Product product)
+        {
+            var result = new UpdateResult();
+            try
+            {
+                if (product is Audio)
+                    InternetShopContext.Instance.Audios.AddOrUpdate((Audio) product);
+                else
+                    InternetShopContext.Instance.Videos.AddOrUpdate((Video) product);
+                await InternetShopContext.Instance.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                result.AddError(e.Message);
+            }
+            return result;
+        }
+
+        public async Task<DeleteResult> DeleteProduct(int productId)
+        {
+            var result = new DeleteResult();
+            try
+            {
+                var dbResult = await GetProductById(productId);
+                if (dbResult.IsSucceeded)
+                {
+                    InternetShopContext.Instance.Entry(dbResult.Result).State =
+                        EntityState.Deleted;
+                    await InternetShopContext.Instance.SaveChangesAsync();
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        result.AddError(error);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                result.AddError(e.Message);
+            }
+            return result;
         }
 
         public void Dispose()

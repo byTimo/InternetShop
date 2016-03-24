@@ -68,9 +68,13 @@
     <Compile Include="OrdersRepository.cs" />
     <Compile Include="ProductsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Video.cs" />
+    <Compile Include="Results\CreateResult.cs" />
+    <Compile Include="Results\DbResult.cs" />
+    <Compile Include="Results\DeleteResult.cs" />
+    <Compile Include="Results\SelectResult.cs" />
+    <Compile Include="Results\UpdateResult.cs" />
     <Compile Include="UsersRepository.cs" />
   </ItemGroup>
   <ItemGroup>

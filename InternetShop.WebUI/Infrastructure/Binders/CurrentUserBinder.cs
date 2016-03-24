@@ -15,7 +15,9 @@ namespace InternetShop.WebUI.Infrastructure.Binders
             if (controllerContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 var currentUserId = controllerContext.HttpContext.User.Identity.GetUserId();
-                user = repository.GetUserById(currentUserId).Result;
+                var dbResult = repository.GetUserById(currentUserId).Result;
+                if (dbResult.IsSucceeded)
+                    user = dbResult.Result;
             }
             return user;
         }

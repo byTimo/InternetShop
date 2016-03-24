@@ -16,7 +16,6 @@ namespace InternetShop.DataLayer
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Audio> Audios { get; set; }
         public virtual DbSet<Video> Videos { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -38,11 +37,6 @@ namespace InternetShop.DataLayer
                 .HasMany(e => e.OrderedProducts)
                 .WithRequired(e => e.Product)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Role>()
-                .HasMany(e => e.Users)
-                .WithMany(e => e.Roles)
-                .Map(m => m.ToTable("UsersRoles").MapLeftKey("RoleId").MapRightKey("UserId"));
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Orders)

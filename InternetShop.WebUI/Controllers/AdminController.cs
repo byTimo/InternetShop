@@ -29,73 +29,105 @@ namespace InternetShop.WebUI.Controllers
             this.orderesRepository = orderesRepository;
         }
 
-        public ViewResult ProductList()
+        public async Task<ViewResult> ProductList()
         {
-            var allProducts = new ProductListViewModel
+            var allProducts = new ProductListViewModel();
+            var dbResult = await productRepository.GetAllProductAsync();
+            if (dbResult.IsSucceeded)
             {
-                Products = productRepository.Products.Select(ProductViewModel.Create)
-            };
+                allProducts.Products = dbResult.Result.Select(ProductViewModel.Create);
+            }
             return View(allProducts);
         }
 
-        public ViewResult CreateProduct()
+        public Task<ViewResult> CreateProduct()
         {
-            return View(new ProductViewModel());
+            return Task.FromResult(View(new ProductViewModel()));
         }
 
         [HttpPost]
-        public ActionResult CreateProduct(ProductViewModel productViewModel)
+        public async Task<ActionResult> CreateProduct(ProductViewModel productViewModel)
         {
             if (ModelState.IsValid)
             {
-                productRepository.SaveProduct(productViewModel.ToProduct());
-                TempData["message"] = $"Добавлен новый товар: {productViewModel.Name}";
-                return RedirectToAction("ProductList");
+                var product = productViewModel.ToProduct();
+                var dbResult = await productRepository.CreateProduct(product);
+                if (dbResult.IsSucceeded)
+                {
+                    TempData["message"] = $"Добавлен новый товар: {productViewModel.Name}";
+                    return RedirectToAction("ProductList");
+                }
+                else
+                {
+                    foreach (var error in dbResult.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
             }
             TempData["error-message"] = "При создании товара возникли ошибки";
             return View(productViewModel);
         }
 
-        public ViewResult EditProduct(int productId)
+        public async Task<ViewResult> EditProduct(int productId)
         {
-            ViewBag.Title = "Админ панель : изменение товара";
-            var product = productRepository.Products.First(p => p.ProductId == productId);
-            var productViewModel = ProductViewModel.Create(product);
-            return View(productViewModel);
+            var dbEntity = await productRepository.GetProductById(productId);
+            if (dbEntity.IsSucceeded)
+            {
+                return View(ProductViewModel.Create(dbEntity.Result));
+            }
+            return View(new ProductViewModel());
         }
 
         [HttpPost]
-        public ActionResult EditProduct(ProductViewModel productViewModel)
+        public async Task<ActionResult> EditProduct(ProductViewModel productViewModel)
         {
             if (ModelState.IsValid)
             {
                 var product = productViewModel.ToProduct();
-                productRepository.SaveProduct(product);
-                TempData["message"] = $"Изменения товара {product.Name} были сохранены!";
-                return RedirectToAction("ProductList");
+                var dbResult = await productRepository.UpdateProduct(product);
+                if (dbResult.IsSucceeded)
+                {
+                    TempData["message"] = $"Изменения товара {product.Name} были сохранены!";
+                    return RedirectToAction("ProductList");
+                }
+                else
+                {
+                    foreach (var error in dbResult.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
             }
             TempData["error-message"] = "При обновлении товара возникли ошибки!";
             return View(productViewModel);
         }
 
         [HttpPost]
-        public ActionResult DeleteProduct(int productId)
+        public async Task<ActionResult> DeleteProduct(int productId)
         {
-            var product = productRepository.Products.First(p => p.ProductId == productId);
-            productRepository.DeleteProduct(product);
-            TempData["message"] = $"Товар {product.Name} успешно удалён!";
-            return RedirectToAction("ProductList");
+            var dbResult = await productRepository.DeleteProduct(productId);
+            if (dbResult.IsSucceeded)
+            {
+                TempData["message"] = "Товар успешно удалён!";
+                return RedirectToAction("ProductList");
+            }
+            return null;
         }
 
-        public ActionResult UserList()
+        public async Task<ActionResult> UserList()
         {
-            var users = usersRepository.Users.Select(UserViewModel.Create);
-            return View(users);
+            var dbResult = await usersRepository.GetAllUsers();
+            if (dbResult.IsSucceeded)
+            {
+                return View(dbResult.Result.Select(UserViewModel.Create));
+            }
+            return null;
         }
 
-        public ActionResult CreateUser()
+        public Task<ViewResult> CreateUser()
         {
-            return View(new UserViewModel());
+            return Task.FromResult(View(new UserViewModel()));
         }
 
         [HttpPost]
@@ -124,11 +156,14 @@ namespace InternetShop.WebUI.Controllers
             }
         }
 
-        public ActionResult EditUser(string userId)
+        public async Task<ActionResult> EditUser(string userId)
         {
-            var user = usersRepository.Users.First(u => u.UserId.Equals(userId));
-            var userModel = UserViewModel.Create(user);
-            return View(userModel);
+            var dbResult = await usersRepository.GetUserById(userId);
+            if (dbResult.IsSucceeded)
+            {
+                return View(UserViewModel.Create(dbResult.Result));
+            }
+            return null;
         }
 
         [HttpPost]
@@ -149,10 +184,14 @@ namespace InternetShop.WebUI.Controllers
             return View(model);
         }
 
-        public ActionResult OrderList()
+        public async Task<ActionResult> OrderList()
         {
-            var orders = orderesRepository.Orders.Select(OrderInfoModel.Create);
-            return View(orders);
+            var dbResult = await orderesRepository.GetAllOrderAsync();
+            if (dbResult.IsSucceeded)
+            {
+                return View(dbResult.Result.Select(OrderInfoModel.Create));
+            }
+            return null;
         }
 
         protected override void Dispose(bool disposing)

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using InternetShop.DataLayer;
 using InternetShop.DataLayer.Abstract;
@@ -19,61 +20,77 @@ namespace InternetShop.WebUI.Controllers
             this.productsRepository = productsRepository;
         }
 
-        public ViewResult List(Cart cart, User user, int page = 1)
+        public async Task<ViewResult> List(Cart cart, User user, int page = 1)
         {
             var model = new ProductListViewModel
             {
-                Products = productsRepository.Products
-                    .Skip((page - 1)*PageSize)
-                    .Take(PageSize)
-                    .Select(ProductViewModel.Create),
-                PagingInfo = new PagingInfo(page, PageSize, productsRepository.Products.Count()),
                 IdentityUserInfo = IdentityUserInfo.Create(user)
             };
+            var dbResult = await productsRepository.GetAllProductAsync();
+            if (dbResult.IsSucceeded)
+            {
+                model.Products = dbResult.Result.Skip((page - 1)*PageSize)
+                    .Take(PageSize)
+                    .Select(ProductViewModel.Create);
+                model.PagingInfo = new PagingInfo(page, PageSize, dbResult.Result.Count());
+            }
             ViewBag.ProductInCartCount = cart.ProductsInCart.Count;
             return View(model);
         }
 
-        public FileContentResult GetImage(int productId)
+        public async Task<FileContentResult> GetImage(int productId)
         {
-            var product = productsRepository.Products.First(p => p.ProductId == productId);
-            return File(product.ImageData, product.ImageMimeType);
+            var dbResult = await productsRepository.GetProductById(productId);
+            if (dbResult.IsSucceeded)
+            {
+                return File(dbResult.Result.ImageData, dbResult.Result.ImageMimeType);
+            }
+            return null;
         }
 
-
-        public ActionResult AddToCart(Cart cart, int productId)
+        public Task<ViewResult> Cart(Cart cart)
         {
-            var product = productsRepository.Products.First(p => p.ProductId == productId);
-            cart.AddItem(product, 1);
-            TempData["Message"] = $"Товар {product.Name} добавлен в корзину.";
+            return Task.FromResult(View(cart));
+        }
+
+        public async Task<ActionResult> AddToCart(Cart cart, int productId)
+        {
+            var dbResult = await productsRepository.GetProductById(productId);
+            if (dbResult.IsSucceeded)
+            {
+                cart.AddItem(dbResult.Result, 1);
+                TempData["Message"] = $"Товар {dbResult.Result.Name} добавлен в корзину.";
+            }
             return RedirectToAction("List");
         }
 
-        public ActionResult RemoveFromCart(Cart cart, int productId)
+        public async Task<ActionResult> RemoveFromCart(Cart cart, int productId)
         {
-            var product = productsRepository.Products.First(p => p.ProductId == productId);
-            cart.RemoveItem(product);
-            TempData["Message"] = $"Товар {product.Name} удалён из корзины.";
+            var dbResult = await productsRepository.GetProductById(productId);
+            if (dbResult.IsSucceeded)
+            {
+                cart.RemoveItem(dbResult.Result);
+                TempData["Message"] = $"Товар {dbResult.Result.Name} удалён из корзины.";
+            }
             return RedirectToAction("Cart");
         }
 
-        public ActionResult ClearCart(Cart cart)
+        public Task<RedirectToRouteResult> ClearCart(Cart cart)
         {
             cart.Clear();
             TempData["Message"] = "Корзина очищена";
-            return RedirectToAction("Cart");
+            return Task.FromResult(RedirectToAction("Cart"));
         }
 
-        public ViewResult Cart(Cart cart)
+        public async Task<PartialViewResult> Info(int productId)
         {
-            return View(cart);
-        }
-
-        public PartialViewResult Info(int productId)
-        {
-            var product = productsRepository.Products.First(p => p.ProductId == productId);
-            var productViewModel = ProductViewModel.Create(product);
-            return PartialView(productViewModel);
+            var dbResult = await productsRepository.GetProductById(productId);
+            if (dbResult.IsSucceeded)
+            {
+                var productViewModel = ProductViewModel.Create(dbResult.Result);
+                return PartialView(productViewModel);
+            }
+            return null;
         }
     }
 }

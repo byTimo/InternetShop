@@ -13,17 +13,12 @@ namespace InternetShop.WebUI.Infrastructure.AccountInfrastructure
 
         public IEnumerable<IdentityUser> Users
         {
-            get { return usersRepository.Users.Select(u => new IdentityUser(u)); }
+            get { return usersRepository.GetAllUsers().Result.Result.Select(u => new IdentityUser(u)); }
         }
 
         public InternetShopUserStore(IUsersRepository usersRepository)
         {
             this.usersRepository = usersRepository;
-        }
-
-        public void Dispose()
-        {
-            usersRepository.Dispose();
         }
 
         public async Task CreateAsync(IdentityUser user)
@@ -41,29 +36,23 @@ namespace InternetShop.WebUI.Infrastructure.AccountInfrastructure
         public async Task DeleteAsync(IdentityUser user)
         {
             var entityUser = user.ToUserEntity();
-            await usersRepository.DeleteUser(entityUser);
+            await usersRepository.DeleteUser(entityUser.UserId);
         }
 
-        public Task<IdentityUser> FindByIdAsync(string userId)
+        public async Task<IdentityUser> FindByIdAsync(string userId)
         {
-            return Task.Run(() =>
-            {
-                var entityUser = usersRepository.Users.FirstOrDefault(u => u.UserId == userId);
-                if (entityUser == null)
-                    return null;
-                return new IdentityUser(entityUser);
-            });
+            var dbResult = await usersRepository.GetUserById(userId);
+            if(dbResult.IsSucceeded)
+                return new IdentityUser(dbResult.Result);
+            return null;
         }
 
-        public Task<IdentityUser> FindByNameAsync(string userName)
+        public async Task<IdentityUser> FindByNameAsync(string userName)
         {
-            return Task.Run(() =>
-            {
-                var entityUser = usersRepository.Users.FirstOrDefault(u => u.Email == userName);
-                if (entityUser == null)
-                    return null;
-                return new IdentityUser(entityUser);
-            });
+            var dbResult = await usersRepository.GetAllUsers();
+            if (dbResult.IsSucceeded)
+                return new IdentityUser(dbResult.Result.FirstOrDefault(u => u.Email == userName));
+            return null;
         }
 
         public Task SetPasswordHashAsync(IdentityUser user, string passwordHash)
@@ -80,6 +69,11 @@ namespace InternetShop.WebUI.Infrastructure.AccountInfrastructure
         public Task<bool> HasPasswordAsync(IdentityUser user)
         {
             return Task.FromResult(string.IsNullOrEmpty(user.PasswordHash));
+        }
+
+        public void Dispose()
+        {
+            //usersRepository.Dispose();
         }
     }
 }
