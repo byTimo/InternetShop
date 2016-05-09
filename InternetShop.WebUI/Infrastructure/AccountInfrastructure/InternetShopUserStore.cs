@@ -23,20 +23,17 @@ namespace InternetShop.WebUI.Infrastructure.AccountInfrastructure
 
         public async Task CreateAsync(IdentityUser user)
         {
-            var entityUser = user.ToUserEntity();
-            await usersRepository.CreateUser(entityUser);
+            await usersRepository.CreateUser(user);
         }
 
         public async Task UpdateAsync(IdentityUser user)
         {
-            var entityUser = user.ToUserEntity();
-            await usersRepository.UpdateUser(entityUser);
+            await usersRepository.UpdateUser(user);
         }
 
         public async Task DeleteAsync(IdentityUser user)
         {
-            var entityUser = user.ToUserEntity();
-            await usersRepository.DeleteUser(entityUser.UserId);
+            await usersRepository.DeleteUser(user.Id);
         }
 
         public async Task<IdentityUser> FindByIdAsync(string userId)

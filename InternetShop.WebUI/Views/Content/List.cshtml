@@ -68,7 +68,7 @@
         {
             <div class="col-sm-6 col-md-4">
                 <div class="thumbnail">
-                    @if (p.ImageData != null)
+                    @if (p.IsContaintImage)
                     {
                         <img alt="@p.Name" class="img-thumbnail info-btn"
                              src="@Url.Action("GetImage", new {productId = p.ProductId})"/>

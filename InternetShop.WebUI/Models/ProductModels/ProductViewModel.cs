@@ -46,8 +46,7 @@ namespace InternetShop.WebUI.Models.ProductModels
 
         public HttpPostedFileBase NewImage { get; set; }
 
-        public byte[] ImageData { get; set; }
-        public string ImageMimeType { get; set; }
+        public bool IsContaintImage { get; set; }
 
         public IEnumerable<SelectListItem> Types => Enum.GetValues(typeof (ProductType))
             .Cast<ProductType>()
@@ -77,8 +76,7 @@ namespace InternetShop.WebUI.Models.ProductModels
             Description = product.Description;
             Year = product.Year;
             Price = product.Price;
-            ImageData = product.ImageData;
-            ImageMimeType = product.ImageMimeType;
+            IsContaintImage = product.ImageData != null;
         }
 
         public ProductViewModel(Video video)
@@ -147,12 +145,7 @@ namespace InternetShop.WebUI.Models.ProductModels
 
         private void ReadImageInformation(Product product)
         {
-            if (NewImage == null)
-            {
-                product.ImageData = ImageData;
-                product.ImageMimeType = ImageMimeType;
-            } 
-            else
+            if (NewImage != null)
             {
                 product.ImageMimeType = NewImage.ContentType;
                 product.ImageData = new byte[NewImage.ContentLength];

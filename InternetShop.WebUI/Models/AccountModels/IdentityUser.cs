@@ -4,22 +4,21 @@ using Microsoft.AspNet.Identity;
 
 namespace InternetShop.WebUI.Models.AccountModels
 {
-    public class IdentityUser : IUser
+    public class IdentityUser : User, IUser
     {
-        public string Id { get; }
+        public string Id
+        {
+            get { return UserId; }
+            set { UserId = value; }
+        }
 
-        public string UserName { get; set; }
-
-        public string PasswordHash { get; set; }
-
-        public string Name { get; set; }
-
-        public string Surname { get; set; }
-
-        public string Address { get; set; }
+        public string UserName
+        {
+            get { return Email; }
+            set { Email = value; }
+        }
 
         public string Password { get; set; }
-
 
         public IdentityUser(string email)
         {
@@ -35,19 +34,6 @@ namespace InternetShop.WebUI.Models.AccountModels
             Name = user.Name;
             Surname = user.Surname;
             Address = user.Address;
-        }
-
-        public User ToUserEntity()
-        {
-            return new User
-            {
-                UserId = Id,
-                Name = Name,
-                Surname = Surname,
-                PasswordHash = PasswordHash,
-                Email = UserName,
-                Address = Address
-            };
         }
     }
 }

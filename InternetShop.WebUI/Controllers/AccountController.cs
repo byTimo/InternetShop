@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using InternetShop.DataLayer.Abstract;
+using InternetShop.DataLayer.Entities;
 using InternetShop.DataLayer.Results;
 using InternetShop.WebUI.Infrastructure.AccountInfrastructure;
 using InternetShop.WebUI.Models.AccountModels;
@@ -17,7 +19,7 @@ namespace InternetShop.WebUI.Controllers
     {
         private InternetShopUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<InternetShopUserManager>();
         private IAuthenticationManager AuthManager => HttpContext.GetOwinContext().Authentication;
-        private IUsersRepository usersRepository;
+        private readonly IUsersRepository usersRepository;
 
         public AccountController(IUsersRepository usersRepository)
         {
@@ -47,8 +49,13 @@ namespace InternetShop.WebUI.Controllers
 
         private Task<CreateResult> TryRegisterUserFromModel(RegisterViewModel model)
         {
-            var newUser = new IdentityUser(model.Email) {Name = model.Name}.ToUserEntity();
-            newUser.PasswordHash = UserManager.PasswordHasher.HashPassword(model.Password);
+            var newUser = new User
+            {
+                UserId = Guid.NewGuid().ToString(),
+                Name = model.Name,
+                Email = model.Email,
+                PasswordHash = UserManager.PasswordHasher.HashPassword(model.Password)
+            };
             return usersRepository.CreateUser(newUser);
         }
 

@@ -53,7 +53,7 @@
             </table>
         </div>
         <div class="col-sm-7">
-            @if (@Model.ImageData != null)
+            @if (@Model.IsContaintImage)
             {
                 <img id="image" src="@Url.Action("GetImage", new {productId = Model.ProductId})" class="img-thumbnail center-block"/>
             }

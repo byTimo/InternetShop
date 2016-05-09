@@ -71,7 +71,7 @@
                 <div class="col-sm-5">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            @if (Model.ImageData != null)
+                            @if (Model.IsContaintImage)
                             {
                                 <img id="image" src="@Url.Action("GetImage", "Content", new {productId = Model.ProductId})" class="img-thumbnail center-block"/>
                             }

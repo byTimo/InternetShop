@@ -135,9 +135,10 @@ namespace InternetShop.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var appUser = model.ToIdentityUser();
-                var result = await UserManager.CreateAsync(appUser, model.Password);
-                if (result.Succeeded)
+                var appUser = model.ToUser();
+                appUser.PasswordHash = UserManager.PasswordHasher.HashPassword(model.Password);
+                var result = await usersRepository.CreateUser(appUser);
+                if (result.IsSucceeded)
                 {
                     TempData["message"] = "Пользователь успешно создан!";
                     return RedirectToAction("UserList");

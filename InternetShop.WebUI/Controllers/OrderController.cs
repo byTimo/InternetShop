@@ -57,10 +57,7 @@ namespace InternetShop.WebUI.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            if(string.IsNullOrEmpty(user.Surname) || string.IsNullOrEmpty(user.Address))
-            {
-                throw new NotImplementedException();
-            }
+
             var dbResult = await orderesRepository.CreateOrder(user, cart.ProductsInCart);
             if (dbResult.IsSucceeded)
             {

@@ -52,8 +52,6 @@ go
 create unique nonclustered index ProductNameIndex
   on dbo.Products( Name ASC )
 
--- TODO Genres and Musical Directions tables
-
 -- Orders tables
 if exists( select * from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'OrderedProducts' )
   drop table OrderedProducts

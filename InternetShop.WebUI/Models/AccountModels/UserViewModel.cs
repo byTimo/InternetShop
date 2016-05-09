@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using InternetShop.DataLayer.Entities;
 
@@ -48,7 +49,7 @@ namespace InternetShop.WebUI.Models.AccountModels
         {
             return new User
             {
-                UserId = UserId,
+                UserId = UserId ?? Guid.NewGuid().ToString(),
                 Email = Email,
                 Address = Address,
                 Name = Name,

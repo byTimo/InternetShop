@@ -56,7 +56,8 @@
                     <td class="text-center">@product.Item1.Name</td>
                     <td class="text-center">@product.Item1.Price.ToString("# руб")</td>
                     <td class="text-center">@((product.Item1.Price*product.Item2).ToString("# руб"))</td>
-                    <td class="text-center"><a href="@Url.Action("RemoveFromCart", new {productId = product.Item1.ProductId})">
+                    <td class="text-center"><a href="@Url.Action("RemoveFromCart", 
+                                                    new {productId = product.Item1.ProductId})">
                         <span class="glyphicon glyphicon-minus"></span>
                     </a></td>
                 </tr>
